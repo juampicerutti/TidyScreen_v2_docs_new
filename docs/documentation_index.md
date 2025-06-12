@@ -1,10 +1,9 @@
 ---
-sidebar_position: 3
+sidebar_position: 2
 ---
 
-
 <div align="center">
-  <img src="/img/feedback.svg" alt="Description" width="400"/>
+  <img src="/img/docusaurus.png" alt="Description" width="400"/>
   <p><b>Figure 1:</b> Your caption here.</p>
 </div>
 

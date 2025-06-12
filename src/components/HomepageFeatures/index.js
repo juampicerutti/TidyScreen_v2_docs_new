@@ -4,32 +4,30 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Open Source',
+    Svg: require('@site/static/img/open_source.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        TidyScreen was originally developed and is permanently mantained with focus 
+	on the integration of Open Source tools.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Reproducible screening workflows',
+    Svg: require('@site/static/img/reproducibility.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        The main objective of TidyScreen is to turn complex <i>in silico</i> screening pipelines into highly reproducible workflows.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Community driven development',
+    Svg: require('@site/static/img/feedback.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Each <i>in silico</i> drug screening campaing encompasses its own particularities, and TidyScreen is expected to grow upon use cases feedback.
       </>
     ),
   },
