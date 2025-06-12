@@ -1,0 +1,8 @@
+{
+  "label": "MolDyn Analysis actions",
+  "position": 10,
+  "link": {
+    "type": "generated-index",
+    "description": "Documentation associated to module corresponding to molecular docking analysis"
+  }
+}

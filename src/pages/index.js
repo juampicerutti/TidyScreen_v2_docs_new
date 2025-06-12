@@ -19,7 +19,7 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/documentation_index">
+            to="/docs/project_overview">
 		TidyScreen Documentation
           </Link>
         </div>

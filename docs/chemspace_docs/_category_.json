@@ -1,0 +1,8 @@
+{
+  "label": "ChemSpace actions",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Documentation associated to ChemSpace actions"
+  }
+}
