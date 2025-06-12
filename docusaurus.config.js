@@ -28,7 +28,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'alfredoq', // Usually your GitHub org/user name.
-  projectName: 'TidyScreen_v2_docs', // Usually your repo name.
+  projectName: 'TidyScreen_v2_docs_new', // Usually your repo name.
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
