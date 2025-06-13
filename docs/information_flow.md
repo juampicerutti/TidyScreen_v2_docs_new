@@ -7,7 +7,7 @@ The basic information flow in TidyScreen is presented in **Figure 1**.
 
 <figure>
   <p align="center">
-  <img src="/img/information_flow.png" alt="Description of image" width="1000"/>
+  <img src="/TidyScreen_v2_docs_new/img/information_flow.png" alt="Description of image" width="1000"/>
   <figcaption>**Figure 1:** Diagram showing the information flow in TidyScreen.</figcaption>
   </p>
 </figure>

@@ -8,7 +8,7 @@ sidebar_position: 1
 
 
 <div align="center">
-  <img src="/img/organization.jpg" alt="Nada" width="400"/>
+  <img src="/TidyScreen_v2_docs_new/img/organization.jpg" alt="Image" width="400"/>
 </div>
 
 
@@ -20,7 +20,14 @@ A typical ***VDSC*** encompases the following stages:
 - Analysis/subseting/prioritization of compounds within the working ***WCS***;
 - Preparation of candidates for molecular docking assays;
 - Obtention/processing/parameterization of a target receptor;
-- 
+- Execution of molecular docking assays;
+- Analysis of molecular docking results;
+- Advancing selected candidates to molecular dynamics simulations;
+- Exhaustive processing of molecular dynamics trajectories.
+
+`TidyScreen` includes objects and classes that facilitate the execution and registry of all these stages, thus not only configuring but also registering the actions take during the **VDSC**
+
+In the following sections, the execution of all these steps will be described in detail.
 
 
 

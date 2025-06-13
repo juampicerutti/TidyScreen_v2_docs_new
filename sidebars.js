@@ -67,6 +67,11 @@ tutorialSidebar: [
       label: 'MolDyn Analysis Actions',
       items: ['template_page'],
     },
+    {
+      type: 'category',
+      label: 'Worked example',
+      items: ['template_page'],
+    },
     'contact',
   ],
 
