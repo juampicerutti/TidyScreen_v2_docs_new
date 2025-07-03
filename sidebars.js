@@ -70,7 +70,7 @@ tutorialSidebar: [
     {
       type: 'category',
       label: 'Examples',
-      items: ['template_page'],
+      items: ['examples/chemical_space_synthesis',],
     },
     'contact',
   ],

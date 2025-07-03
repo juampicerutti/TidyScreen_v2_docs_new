@@ -17,9 +17,9 @@ Required user inputs are shown in dashed boxes (i.e. SMILES and Receptor). Boxes
 
 ### Components description
 
-- **SMILES**: a `.csv` file containing the molecules to be included in the virtual screening workflow. Check this input file format in the corresponding section under [ChemSpace actions -> SMILES input file](/chemspace_docs/smiles_input.md)
+- **SMILES**: a `.csv` file containing the molecules to be included in the virtual screening workflow. Check this input file format in the corresponding section under [ChemSpace->Molecules input](/docs/chemspace/compounds_input.md)
 
-- **ChemSpace**: the module capable of processing molecules as part of the screening campaign. This processing includes SMILES sanitization, molecule storage and organization. Also, this module is responsible of managing reactant molecules when products to be screened are originated by applying custom chemical reactions. Overall, the whole chemical space associated to the screening is managed by this module. For further detail check the dedicated [ChemSpace actions -> ChemSpace actions](/chemspace_docs/chemspace_actions.md)
+- **ChemSpace**: the module capable of processing molecules as part of the screening campaign. This processing includes SMILES sanitization, molecule storage and organization. Also, this module is responsible of managing reactant molecules when products to be screened are originated by applying custom chemical reactions. Overall, the whole chemical space associated to the screening is managed by this module. For further detail check the dedicated [ChemSpace->ChemSpace Generation](/docs/chemspace/chemspace_generation.md)
 
 - **ChemSpace Analysis**: this module is responsible of processing (and/or sampling) the chemical space associated to the project. This processing includes analyses such as stereoisomers enumeration, filtering by molecular descriptors, prioritization using ML modelos, etc. For implementation details check the dedicated  
 
