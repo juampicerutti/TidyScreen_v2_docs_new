@@ -62,13 +62,13 @@ synthesis_example_chemspace = chemspace.ChemSpace(synthesis_example)
 Next, import the full [eMolecules](https://www.emolecules.com/) database into the ChemSpace section of the project
 
 ```python
-# Input the eMolecules database into ChemSpace from the corresponding 'emolecules_base.csv' file"
-synthesis_example_chemspace.input_csv("$PATH/TO/emolecules_base.csv") 
+# Input the eMolecules database into ChemSpace from the corresponding 'emolecules.csv' file"
+synthesis_example_chemspace.input_csv("$PATH/TO/emolecules.csv") 
 
 # Note_1: we are not providing the full archive corresponding to the emolecules database. The user can obtain it upon request to the authors.
 # Note_2: the input of the whole eMolecules database may take a while to load, since it contains millions of molecules.
 ```
-Upon reading the reactants, a table named `emolecules_base` in the `chemspace.db` database located within the `$PROJECT_PATH/chemspace/processed_data/` folder. A quick inspection of the generated table is shown un Figure 3:
+Upon reading the reactants, a table named `emolecules` in the `chemspace.db` database located within the `$PROJECT_PATH/chemspace/processed_data/` folder. A quick inspection of the generated table is shown un Figure 3:
 
 ---
 <figure>
@@ -100,7 +100,7 @@ Filter_id: 12, Filter_Name: SecAmines, SMARTS: [NX3;H1;!$(NC=O)]
 As can be seen in the output, we are interested in using three of the filter provided with TidyScreen installation: Filters `1` (aminoacids), `10` (aldehydes) and `12` (secondary amines).
 
 
-Lets filter out aminoacids. From a synthetic point of view, apart from the requirement that the building block contains an aminoacid residue, there are some additional requisites that are imposed by underlying synthetic mechanism, such as:
+From a synthetic point of view, apart from the requirement that the building block contains an aminoacid residue, there are some additional requisites that are imposed by underlying synthetic mechanism, such as:
 
 - only one aminoacid scaffold is present. Otherwise the reaction will lead to several by products;
 - no primary amines in R. Otherwise the azidation will lead to the mixture of two azides;
@@ -113,9 +113,172 @@ Lets filter out aminoacids. From a synthetic point of view, apart from the requi
 As can be seen trough the corresponding listing, all these filters are already available by default when installing TidyScreen. In case the used would like to add custom filter (i.e. a fluorine atom), it can be done by using:
 
 ```python
-synthesis_example_chemspace.add_smarts_filter("[F]","Fluorine atom") # Indicate the SMARTS, followed by a description of the filter
+>>> synthesis_example_chemspace.add_smarts_filter("[F]","Fluorine atom") # Indicate the SMARTS, followed by a description of the filter
 
 ```
+### Construction and execution of a reactants filtering workflow
+
+It is possible to concatenate multiple filters in a single workflow to apply all the filtering criteria at once. For example:
+
+```python
+# Create a workflow to filter aldehydes (10:1) for A3 coupling reactions (no interfering groups as indicated: 12:0, 11:0, etc)
+>>> synthesis_example_chemspace.create_smarts_filters_workflow({10:1,12:0,11:0,1:0,4:0,5:0,25:0,35:0,26:0,2:0,3:0,17:0,8:0,6:0,7:0,9:0}) 
+
+# Create a workflow to filter primary amines (11:1) for A3 coupling reactions reactions
+>>> synthesis_example_chemspace.create_smarts_filters_workflow({11:1,12:0,1:0,10:0,4:0,5:0,25:0,35:0,26:0,2:0,3:0,17:0,8:0,6:0,7:0,9:0}) 
+
+# Create a workflow to filter aminoacids (1:1) for click reactions
+>>> synthesis_example_chemspace.create_smarts_filters_workflow({1:1,11:1,26:1,4:0,5:0,25:0,35:0,2:0,3:0,17:0,8:0,6:0,7:0,9:0}) 
+```
+
+Once create, available reactants filtering workflows can be listed:
+
+```python
+>>> synthesis_example_chemspace.list_available_smarts_filters_workflows()
+
+### Outputs to terminal
+Available SMARTS filters workflows:
+
+Workflow_id: 1, Filter_Specs: {"10": 1, "12": 0, "11": 0, "1": 0, "4": 0, "5": 0, "25": 0, "35": 0, "26": 0, "2": 0, "3": 0, "17": 0, "8": 0, "6": 0, "7": 0, "9": 0}, Description: Filter Aldehydes to perform A3 coupling reactions 
+
+Workflow_id: 2, Filter_Specs: {"11": 1, "12": 0, "1": 0, "10": 0, "4": 0, "5": 0, "25": 0, "35": 0, "26": 0, "2": 0, "3": 0, "17": 0, "8": 0, "6": 0, "7": 0, "9": 0}, Description: Filter primary amines for A3 coupling reactions 
+
+Workflow_id: 3, Filter_Specs: {"1": 1, "11": 1, "26": 1, "4": 0, "5": 0, "25": 0, "35": 0, "2": 0, "3": 0, "17": 0, "8": 0, "6": 0, "7": 0, "9": 0}, Description: Filter Aminoacids for Click reactions
+```
+
+A filtering workflow can be applied on a given table (i.e. `emolecules`) available in the `chemspace.db` using:
+
+```python
+# Apply filter_id: 1 to the 'emolecules' table
+>>> synthesis_example_chemspace.subset_table_by_smarts_workflow("emolecules",1)
+```
+
+Upon executing the filter, a table names `tables_subsets` will created in `chemspace.db`:
+
+
+---
+<figure>
+  <p align="center">
+  <img src="/TidyScreen_v2_docs_new/img/tables_subsets_screenshot.png" alt="Description of image" width="1000"/>
+  <figcaption>**Figure 4:** Screenshot of the subsets table containing the filtering actions.</figcaption>
+  </p>
+</figure>
+---
+
+The info included in the `tables_subsets` is:
+- `table_name`: the source table on which the filtering workflow was applied.
+- `subset_name`: the destination table in which the filtered compounds were written.
+- `filtering_type`: the kind of filtering that originated the destination table. In this case using SMARTS notation
+- `prop_filter`: explicit indication ot the filtering workflow applied.
+- `description`: this is requested as information upon executing the filtering workflow.
+
+
+After filtering the required aldehides, primary amines and aminoacids, the `tables_subsets` looks like this:
+
+---
+<figure>
+  <p align="center">
+  <img src="/TidyScreen_v2_docs_new/img/tables_subsets_ready_screenshot.png" alt="Description of image" width="1000"/>
+  <figcaption>**Figure 5:** Screenshot of the subsets table after filtering aldehides, primary amines and aminoacids.</figcaption>
+  </p>
+</figure>
+---
+
+In this specific example, the filtered tables contains:
+- Aldehides: 316750 compounds
+- Primary amines: 800298
+- Aminoacids: 5713
+
+A random set of each subseted table can be depicted:
+
+```python 
+# Randomly depict 25 aldehydes
+>>> synthesis_example_chemspace.depict_ligand_table("emolecules_subset_1", limit=25,random=True)
+# Randomly depict 25 primary amines
+>>> synthesis_example_chemspace.depict_ligand_table("emolecules_subset_2", limit=25,random=True)
+# Randomly depict 25 aminoacids
+>>> synthesis_example_chemspace.depict_ligand_table("emolecules_subset_3", limit=25,random=True)
+```
+
+The resulting depictions are:
+
+- **Aldehydes**
+---
+<figure>
+  <p align="center">
+  <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_1_0.png" alt="Description of image" width="1000"/>
+  <figcaption>**Figure 6:** Set of 25 randomly picked aldehydes.</figcaption>
+  </p>
+</figure>
+---
+
+
+- **Primary amines**
+
+---
+<figure>
+  <p align="center">
+  <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_2_0.png" alt="Description of image" width="1000"/>
+  <figcaption>**Figure 6:** Set of 25 randomly picked primary amines.</figcaption>
+  </p>
+</figure>
+---
+
+
+- **Aminoacids**
+
+---
+<figure>
+  <p align="center">
+  <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_3_0.png" alt="Description of image" width="1000"/>
+  <figcaption>**Figure 6:** Set of 25 randomly picked aminoacids.</figcaption>
+  </p>
+</figure>
+---
+
+It is clear that exploring the while set of combinatorial possibilities towards 1,4 disubstituted 1,2,3-triazoles is not possible in terms of computational costs. Thus, some filtering (such as by drug-like properties) on the resulting subsets can be performed. In this way, the corresponding properties can be computed for each table subset: 
+
+```python
+## By default the properties are computed: ["MolWt","MolLogP","NumHDonors","NumHAcceptors","NumRotatableBonds","TPSA"]
+### You can specify whatever property computed by RDKit you wan using the 'properties_list' keyword
+>>> synthesis_example_chemspace.compute_properties("emolecules_subset_1")
+```
+
+Now the `emolecules_subset_1` contains additional columns included de computed properties:
+
+---
+<figure>
+  <p align="center">
+  <img src="/TidyScreen_v2_docs_new/img/table_with_computed_properties.png" alt="Description of image" width="1000"/>
+  <figcaption>**Figure X:** --- .</figcaption>
+  </p>
+</figure>
+---
+
+Now imagine you want to subset a given table containing computed properties using the following criteria:
+- MolWt \>= 200 and MolWt \<= 500
+- MolLogP \>=1.5 and MolLogP \<= 3 
+- NumRotatableBonds \<= 2
+
+you should construct the list: `["MolWt>=200","MolWt<=500","MolLogP>=1.5","MolLogP<=3","NumRotatableBonds<=2"]` and pass it to the corresponding subsetting method:
+
+```python 
+>>> synthesis_example_chemspace.subset_table_by_properties("emolecules_subset_1",["MolWt>=200","MolWt<=500","MolLogP>=1.5","MolLogP<=3","NumRotatableBonds<=2"])
+```
+
+Upon execution, a record will be stored in the `tables_subsets` table:
+
+---
+<figure>
+  <p align="center">
+  <img src="/TidyScreen_v2_docs_new/img/subsetting_by_props.png" alt="Description of image" width="1000"/>
+  <figcaption>**Figure X:** --- .</figcaption>
+  </p>
+</figure>
+---
+
+
+
 
 
 ### Definition of single SMARTS reactions
@@ -161,7 +324,7 @@ Upon adding reactions, a table named `smarts_reactions` will be created in the `
 <figure>
   <p align="left">
   <img src="/TidyScreen_v2_docs_new/img/smarts_reactions_table.png" alt="Description of image" width="500"/>
-  <figcaption>**Figure 4:** Screenshot of the table containing the SMARTS reactions added to the project.</figcaption>
+  <figcaption>**Figure X:** Screenshot of the table containing the SMARTS reactions added to the project.</figcaption>
   </p>
 </figure>
 ---
