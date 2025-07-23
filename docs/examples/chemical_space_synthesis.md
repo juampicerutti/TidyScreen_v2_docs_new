@@ -14,7 +14,7 @@ The execution of a virtual drug screening campaing encompasess diverse medicinal
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/CZP.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure 1:** Three-dimensional structure of the CZP, the target enzime for which ligands/inhibitors are to be constructed.</figcaption>
+  <figcaption>**Figure 1:** Three-dime7nsional structure of the CZP, the target enzime for which ligands/inhibitors are to be constructed.</figcaption>
   </p>
 </figure>
 ---
@@ -277,6 +277,24 @@ Upon execution, a record will be stored in the `tables_subsets` table:
 </figure>
 ---
 
+As can be seen the table `emolecules_subset_1_subset_4` has been created based on the corresponding filtering workflow. It is advisable to retain this table name for tracebility in the reactants filterings. If the user wants to copy this subsetted table with a more comprehensive name, it can be done as follows:
+
+```python
+## Copy the subseted table with a new name
+>>> synthesis_example_chemspace.copy_table_to_new_name("emolecules_subset_1_subset_4","aldehydes_for_A3_coupling")
+```
+
+In case the user wants to save the filtered table as a `.csv` file for storing purposes use:
+
+```python
+# Save a .csv file with the filtered table
+>>> synthesis_example_chemspace.save_table_to_csv("emolecules_subset_1_subset_4")
+```
+
+For the purposes of this example, custom drug-like filtering criterias were applied on the aldehydes, primary amines and aminoacids, leading to a set of:
+- Aldehydes: 6022
+- Primary amines: 4037
+- Aminoacids: 1517
 
 
 
@@ -292,7 +310,7 @@ synthesis_example_chemspace.list_available_smarts_reactions()
 Note that the first time you run this listing, since no reactions are available for the project, the message `"SMARTS reactions table does not exist yet. Add reactions to the database first."` will be printed to the terminal. To add user defined reactions in the SMARTS formats use: 
 
 ```python
-synthesis_example_chemspace.add_smarts_reaction("SMARTS_REACTION", "Description") 
+>>> synthesis_example_chemspace.add_smarts_reaction("SMARTS_REACTION", "Description") 
 ```
 
 In the context of the chemical synthesis shown in Figure 2, we are interested in performing the following reactions as part of our synthetic scheme:
@@ -328,6 +346,7 @@ Upon adding reactions, a table named `smarts_reactions` will be created in the `
   </p>
 </figure>
 ---
+
 
 
 
