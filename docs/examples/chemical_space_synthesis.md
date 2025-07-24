@@ -40,7 +40,7 @@ As can be seen, three starting building blocks are required to construct the tar
 
 - ***Aminoacids***: will provide R1 substituents
 - ***Aldehides***: : will provide R2 substituents
-- ***Secondary amines***: will provide R3 substituents
+- ***Aliphatic mines***: can be either primary or secondary and will provide R3 substituents
 
 
 The **objective of this tutorial** is to show how TidyScreen can be used efficiently construct a chemical space of thousands of analogues starting from the corresponding building blocks.
@@ -101,44 +101,98 @@ Once the reactants `emolecules` table has been created, [SMARTS](https://www.day
 >>> Filter_id: 1, Filter_Name: Aminoacids, SMARTS: [NX3H2,NX4+H3][CX4H]([*])[CX3H0](=[OX1])[OX2H,OX1-]
 >>> ...
 >>> Filter_id: 10, Filter_Name: Aldehydes, SMARTS: [CX3H1](=O)[#6]
+>>> Filter_id: 11, Filter_Name: PrimAmines, SMARTS: [NX3;H2;!$(NC=O)]
 >>> Filter_id: 12, Filter_Name: SecAmines, SMARTS: [NX3;H1;!$(NC=O)]
 ...
 ```
 
-As can be seen in the output, we are interested in using three of the filter provided with TidyScreen installation: 
+As can be seen in the output, we are interested in using two of the filter provided with TidyScreen installation: 
 - Filter `1` (aminoacids)
 - Filter `10` (aldehydes) 
-- Filter `12` (secondary amines).
 
-From a synthetic point of view and due to the underlying synthetic mechanism, there are also additional requisites on the building blocks structure that further imposes decoration limitations, such as:
-
-- only **one aminoacid** scaffold is present, otherwise the reaction will lead to several by products;
-- **no primary amines in R**, otherwise the azidation will lead to the mixture of two azides;
-- **no azides** originally contained in the aminoacid.
-- **no tefminal alkynes**, since they will interfere with the A3 coupling reaction.
-- **no thiols**;
-- **no esters**, due to potential stability issues;
-- **no exotic atoms** such as: boron, selenium, 13C, 2H, 3H, 15N, etc.
-
-As can be seen through the corresponding listing, all these filters are already available by default when installing TidyScreen. In case the user would like to add custom filter (i.e. a fluorine atom), it can be done by using:
+Respect to the filtering of amines, althought there are custom filters matching primary OR secondary amines installed by default, there is no current filter matching both of them. Consequently, we can add our own custom filter:
 
 ```python
 > # Add a custom filter indicating the SMARTS, followed by a description of the filter
->>> synthesis_example_chemspace.add_smarts_filter("[F]","Fluorine atom") 
+>>> synthesis_example_chemspace.add_smarts_filter("[NX3;H1,H2;!$(NC=O)]","Primary_and_Secondary_Amines") 
 ```
+
+When listing again, we can see that the filter has been added to the local TidyScreen installation with `id:54`:
+
+```python
+> # List available SMARTS filters to obtain reactants
+>>> synthesis_example_chemspace.list_available_smarts_filters()
+
+> # Outputs:
+>>> Available SMARTS filters:
+>>> Filter_id: 1, Filter_Name: Aminoacids, SMARTS: [NX3H2,NX4+H3][CX4H]([*])[CX3H0](=[OX1])[OX2H,OX1-]
+>>> ...
+>>> Filter_id: 10, Filter_Name: Aldehydes, SMARTS: [CX3H1](=O)[#6]
+>>> Filter_id: 11, Filter_Name: PrimAmines, SMARTS: [NX3;H2;!$(NC=O)]
+>>> Filter_id: 12, Filter_Name: SecAmines, SMARTS: [NX3;H1;!$(NC=O)]
+...
+>>> Filter_id: 54, Filter_Name: Primary_and_Secondary_Amines, SMARTS: [NX3;H1,H2;!$(NC=O)]
+```
+
+From a synthetic point of view and due to the underlying reaction mechanism, there are also additional requisites related to the building blocks structure that further imposes decoration limitations. For example, when filtering aminoacid building blocks, the following criterias are required:
+
+- **only one aminoacid** scaffold present, otherwise the reaction will lead to several by products - Filter specification: (1:1);
+- **no additional primary amines of carboxyls in R**, otherwise the azidation will lead to the mixture of two azides - Filter specification: (11:1 # limit the amine to the primary amine present in the aminoacid; 26:1 # limit the carboxyl to one corresponding to the aminoacid);
+- **no azide** moiety originally contained in the aminoacid R group - Filter specification: (4:0);
+- **no terminal alkynes** present in all building blocks, since they will interfere with the A3 coupling and CuAAC reactions - Filter specification: (5:0);
+- **no thiols** - Filter specification: (25:0);
+- **no esters**, due to potential stability issues in the final molecules - Filter specification: (35:0);
+- **no amides**, same as above - Filter specification: (21:0);
+- **no sulphonamides** - Filter specification: (53:0);
+- **no exotic atoms** such as: boron, silicon, selenium, 13C, 2H, 3H, 13C, 15N, etc. - Filter specifications: (2:0), (3:0), (17:0), (6:0), (7:0), (8:0), (9:0);
+
+- The dictionary matching the whole set of filtering for **aminoacids** is: `{1:1,11:1,26:1,4:0,5:0,25:0,35:0,21:0,53:0,2:0,17:0,6:0,7:0,8:0,9:0}`
+
+Also some restrictions applies to the filtering of **aldehydes** required for A3 coupling reactions:
+- **only one aldehyde** group - Filter specification: (10:1);
+- **no amines** groups - Filter specification: (11:0 # No primary amines; 12:0 # No secondary amines);
+- **no caboxylic acids** groups - Filter specification: (26:0)
+- **no azide** moiety originally contained in the aminoacid R group - Filter specification: (4:0);
+- **no terminal alkynes** present in all building blocks, since they will interfere with the A3 coupling and CuAAC reactions - Filter specification: (5:0);
+- **no thiols** - Filter specification: (25:0);
+- **no esters**, due to potential stability issues in the final molecules - Filter specification: (35:0);
+- **no amides**, same as above - Filter specification: (21:0);
+- **no sulphonamides** - Filter specification: (53:0);
+- **no exotic atoms** such as: boron, silicon, selenium, 13C, 2H, 3H, 13C, 15N, etc. - Filter specifications: (2:0), (3:0), (17:0), (6:0), (7:0), (8:0), (9:0);
+
+- The dictionary matching the whole set of filtering for **aldehydes** is: `{10:1,11:0,26:0,12:0,4:0,5:0,25:0,35:0,21:0,53:0,2:0,17:0,6:0,7:0,8:0,9:0}`
+
+
+An finally, the **primary/secondary amines** needs to fulfill the following criteria:
+
+- **only one primary/secondary amine** group - Filter specification: (54:1);
+- **no aldehydes** groups - Filter specification: (10:0);
+- **no azide** moiety originally contained in the aminoacid R group - Filter specification: (4:0);
+- **no terminal alkynes** present in all building blocks, since they will interfere with the A3 coupling and CuAAC reactions - Filter specification: (5:0);
+- **no thiols** - Filter specification: (25:0);
+- **no esters**, due to potential stability issues in the final molecules - Filter specification: (35:0);
+- **no amides**, same as above - Filter specification: (21:0);
+- **no sulphonamides** - Filter specification: (53:0);
+- **no exotic atoms** such as: boron, silicon, selenium, 13C, 2H, 3H, 13C, 15N, etc. - Filter specifications: (2:0), (3:0), (17:0), (6:0), (7:0), (8:0), (9:0);
+
+- The dictionary matching the whole set of filtering for **primary/secondary amines** is: `{54:1,10:0,4:0,5:0,25:0,35:0,21:0,53:0,2:0,17:0,6:0,7:0,8:0,9:0}`
+
+
+The set of building blocks restrictions can be further modified/optimized/extended upon discussion with the wet-lab team in charge of performing the synthetic procedures, further adapting the requirements to the empirical experimental versatility.
+
 ### Step 2: Construction and execution of a filtering workflow
 
-It is possible to concatenate multiple available filters in a single filtering workflow so as to comply with all the filtering criteria at once. For example:
+It is possible to concatenate multiple filters in a single **filtering workflow** so as to comply with all the above-mentioned criteria at once. For example:
 
 ```python
 > # Create a workflow to filter aldehydes (10:1) for A3 coupling reactions (no interfering groups as indicated: 12:0, 11:0, etc)
->>> synthesis_example_chemspace.create_smarts_filters_workflow({10:1,12:0,11:0,1:0,4:0,5:0,25:0,35:0,26:0,2:0,3:0,17:0,8:0,6:0,7:0,9:0}) 
+>>> synthesis_example_chemspace.create_smarts_filters_workflow({10:1,11:0,26:0,12:0,4:0,5:0,25:0,35:0,21:0,53:0,2:0,17:0,6:0,7:0,8:0,9:0}) 
 
-> # Create a workflow to filter secondary amines (12:1) for A3 coupling reactions reactions
->>> synthesis_example_chemspace.create_smarts_filters_workflow({12:1,12:0,1:0,10:0,4:0,5:0,25:0,35:0,26:0,2:0,3:0,17:0,8:0,6:0,7:0,9:0}) 
+> # Create a workflow to filter primary and secondary amines (55:1) for A3 coupling reactions reactions
+>>> synthesis_example_chemspace.create_smarts_filters_workflow({54:1,10:0,4:0,5:0,25:0,35:0,21:0,53:0,2:0,17:0,6:0,7:0,8:0,9:0}) 
 
 > # Create a workflow to filter aminoacids (1:1) for click reactions
->>> synthesis_example_chemspace.create_smarts_filters_workflow({1:1,11:1,26:1,4:0,5:0,25:0,35:0,2:0,3:0,17:0,8:0,6:0,7:0,9:0}) 
+>>> synthesis_example_chemspace.create_smarts_filters_workflow({1:1,11:1,26:1,4:0,5:0,25:0,35:0,21:0,53:0,2:0,17:0,6:0,7:0,8:0,9:0})
 ```
 
 Once created, available reactants filtering workflows can be listed:
@@ -146,25 +200,21 @@ Once created, available reactants filtering workflows can be listed:
 ```python
 >>> synthesis_example_chemspace.list_available_smarts_filters_workflows()
 
-### Outputs to terminal
-Available SMARTS filters workflows:
-
-Workflow_id: 1, Filter_Specs: {"10": 1, "12": 0, "11": 0, "1": 0, "4": 0, "5": 0, "25": 0, "35": 0, "26": 0, "2": 0, "3": 0, "17": 0, "8": 0, "6": 0, "7": 0, "9": 0}, Description: Filter Aldehydes to perform A3 coupling reactions 
-
-Workflow_id: 2, Filter_Specs: {"11": 1, "12": 0, "1": 0, "10": 0, "4": 0, "5": 0, "25": 0, "35": 0, "26": 0, "2": 0, "3": 0, "17": 0, "8": 0, "6": 0, "7": 0, "9": 0}, Description: Filter primary amines for A3 coupling reactions 
-
-Workflow_id: 3, Filter_Specs: {"1": 1, "11": 1, "26": 1, "4": 0, "5": 0, "25": 0, "35": 0, "2": 0, "3": 0, "17": 0, "8": 0, "6": 0, "7": 0, "9": 0}, Description: Filter Aminoacids for Click reactions
+> ### Outputs
+>>> Available SMARTS filters workflows:
+>>> Workflow_id: 1, Filter_Specs: {"10": 1, "11": 0, "26": 0, "12": 0, "4": 0, "5": 0, "25": 0, "35": 0, "21": 0,"53": 0, "2": 0, "17": 0,"6": 0, "7": 0, "8": 0,"9": 0}, Description: Filter Aldehydes to perform A3 coupling reactions 
+>>> Workflow_id: 2, Filter_Specs: {"54": 1, "10": 0,"4": 0, "5": 0, "25": 0, "35": 0, "21": 0, "53": 0,"2": 0, "17": 0, "6": 0, "7": 0, "8": 0, "9": 0}, Description: Filter primary amines for A3 coupling reactions 
+>>> Workflow_id: 3, Filter_Specs: {"1": 1, "11": 1, "26": 1, "4": 0, "5": 0, "25": 0, "35": 0, "21": 0,"53": 0, "2": 0, "17": 0, "6": 0, "7": 0, "8": 0, "9": 0}, Description: Filter Aminoacids for Click reactions
 ```
 
-A filtering workflow can be applied on a given table (i.e. `emolecules`) available in the `chemspace.db` using:
+A filtering workflow can be applied on a given table (i.e. `emolecules`) that has already been stored in the `chemspace.db` using:
 
 ```python
-# Apply filter_id: 1 to the 'emolecules' table
+> # Apply workflow_filter_id: 1 to the 'emolecules' table
 >>> synthesis_example_chemspace.subset_table_by_smarts_workflow("emolecules",1)
 ```
 
-Upon executing the filter, a table names `tables_subsets` will created in `chemspace.db`:
-
+Upon executing the filter, a table named `tables_subsets` will created in `chemspace.db`, which will register the filtering action:
 
 ---
 <figure>
@@ -177,13 +227,13 @@ Upon executing the filter, a table names `tables_subsets` will created in `chems
 
 The info included in the `tables_subsets` is:
 - `table_name`: the source table on which the filtering workflow was applied.
-- `subset_name`: the destination table in which the filtered compounds were written.
-- `filtering_type`: the kind of filtering that originated the destination table. In this case using SMARTS notation
+- `subset_name`: the destination table to which the filtered compounds were written.
+- `filtering_type`: the kind of filtering that originated the destination table. In this case using SMARTS notation (filtering by properties is also possible, as we will see later)
 - `prop_filter`: explicit indication ot the filtering workflow applied.
 - `description`: this is requested as information upon executing the filtering workflow.
 
 
-After filtering the required aldehides, primary amines and aminoacids, the `tables_subsets` looks like this:
+After filtering the required aldehydes, amines and aminoacids, the `tables_subsets` looks like this:
 
 ---
 <figure>
@@ -195,9 +245,9 @@ After filtering the required aldehides, primary amines and aminoacids, the `tabl
 ---
 
 In this specific example, the filtered tables contains:
-- Aldehides: 316750 compounds
-- Primary amines: 800298
-- Aminoacids: 5713
+- ***Aldehydes:*** 227,985 compounds
+- ***Primary/Secondary amines:*** 1,420,273
+- ***Aminoacids:*** 5,405
 
 A random set of each subseted table can be depicted:
 
@@ -216,19 +266,19 @@ The resulting depictions are:
 ---
 <figure>
   <p align="center">
-  <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_1_0.png" alt="Description of image" width="1000"/>
+  <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_21_0.png" alt="Description of image" width="1000"/>
   <figcaption>**Figure 6:** Set of 25 randomly picked aldehydes.</figcaption>
   </p>
 </figure>
 ---
 
 
-- **Primary amines**
+- **Primary/Secondary amines**
 
 ---
 <figure>
   <p align="center">
-  <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_2_0.png" alt="Description of image" width="1000"/>
+  <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_20_0.png" alt="Description of image" width="1000"/>
   <figcaption>**Figure 6:** Set of 25 randomly picked primary amines.</figcaption>
   </p>
 </figure>
@@ -240,7 +290,7 @@ The resulting depictions are:
 ---
 <figure>
   <p align="center">
-  <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_3_0.png" alt="Description of image" width="1000"/>
+  <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_18_0.png" alt="Description of image" width="1000"/>
   <figcaption>**Figure 6:** Set of 25 randomly picked aminoacids.</figcaption>
   </p>
 </figure>
@@ -302,9 +352,9 @@ In case the user wants to save the filtered table as a `.csv` file for storing p
 ```
 
 For the purposes of this example, custom drug-like filtering criterias were applied on the aldehydes, primary amines and aminoacids, leading to a set of:
-- [Aldehydes](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/Ald_filtered_druglike.csv): 51 cpds
-- [Primary amines](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/Amines_filtered_druglike.csv): 22 cpds
-- [Aminoacids](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/AA_filtered_druglike.csv): 35 cpds
+- [Aldehydes](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/Ald_filtered_druglike.csv): 51 building blocks
+- [Primary/Secondary amines](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/Amines_filtered_druglike.csv): 22 building blocks
+- [Aminoacids](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/AA_filtered_druglike.csv): 35 building blocks
 
 The combinatorial synthesis of the building blocks will lead to a library of 39270 1,2,3-triazoles.
 
