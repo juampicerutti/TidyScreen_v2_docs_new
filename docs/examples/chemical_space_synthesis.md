@@ -547,7 +547,7 @@ As shown, the table `reaction_set_1` containing the reaction products has been c
 <figure>
   <p align="left">
   <img src="/TidyScreen_v2_docs_new/img/reaction_set_1_0.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure X:** --- .</figcaption>
+  <figcaption>**Figure 14:** Screenshot showing 25 randomly sampled products  .</figcaption>
   </p>
 </figure>
 ---
