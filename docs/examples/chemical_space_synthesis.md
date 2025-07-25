@@ -198,53 +198,57 @@ It is possible to concatenate multiple filters in a single **filtering workflow*
 Once created, available reactants filtering workflows can be listed:
 
 ```python
+> # List available filtering workflows
 >>> synthesis_example_chemspace.list_available_smarts_filters_workflows()
 
 > ### Outputs
 >>> Available SMARTS filters workflows:
+> # Workflow to filter aldehydes
 >>> Workflow_id: 1, Filter_Specs: {"10": 1, "11": 0, "26": 0, "12": 0, "4": 0, "5": 0, "25": 0, "35": 0, "21": 0,"53": 0, "2": 0, "17": 0,"6": 0, "7": 0, "8": 0,"9": 0}, Description: Filter Aldehydes to perform A3 coupling reactions 
+> # Workflow to filter primary/secondary amines
 >>> Workflow_id: 2, Filter_Specs: {"54": 1, "10": 0,"4": 0, "5": 0, "25": 0, "35": 0, "21": 0, "53": 0,"2": 0, "17": 0, "6": 0, "7": 0, "8": 0, "9": 0}, Description: Filter primary amines for A3 coupling reactions 
+> # Workflow to filter aminoacids
 >>> Workflow_id: 3, Filter_Specs: {"1": 1, "11": 1, "26": 1, "4": 0, "5": 0, "25": 0, "35": 0, "21": 0,"53": 0, "2": 0, "17": 0, "6": 0, "7": 0, "8": 0, "9": 0}, Description: Filter Aminoacids for Click reactions
 ```
 
 A filtering workflow can be applied on a given table (i.e. `emolecules`) that has already been stored in the `chemspace.db` using:
 
 ```python
-> # Apply workflow_filter_id: 1 to the 'emolecules' table
+> # Apply workflow_filter_id: 1 on the 'emolecules' table
 >>> synthesis_example_chemspace.subset_table_by_smarts_workflow("emolecules",1)
 ```
 
-Upon executing the filter, a table named `tables_subsets` will created in `chemspace.db`, which will register the filtering action:
+Upon executing the filter, a table named `tables_subsets` will be created in `chemspace.db` with the objective of registering the filtering action:
 
 ---
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/tables_subsets_screenshot.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure 4:** Screenshot of the subsets table containing the filtering actions.</figcaption>
+  <figcaption>**Figure 4:** Screenshot of the `tables_subsets` containing the filtering actions.</figcaption>
   </p>
 </figure>
 ---
 
 The info included in the `tables_subsets` is:
 - `table_name`: the source table on which the filtering workflow was applied.
-- `subset_name`: the destination table to which the filtered compounds were written.
-- `filtering_type`: the kind of filtering that originated the destination table. In this case using SMARTS notation (filtering by properties is also possible, as we will see later)
+- `subset_name`: the destination table to which the filtered compounds were written. This name is automatically created incrementally.
+- `filtering_type`: the kind of filtering that originated the destination table. In this case `emolecules_subset_1` was created by using SMARTS filtering (filtering `by_properties` is also possible, as we will see later)
 - `prop_filter`: explicit indication ot the filtering workflow applied.
-- `description`: this is requested as information upon executing the filtering workflow.
+- `description`: this is requested to the used as descriptive information upon executing the filtering workflow.
 
 
-After filtering the required aldehydes, amines and aminoacids, the `tables_subsets` looks like this:
+After filtering the required **aldehydes**, **amines** and **aminoacids**, `tables_subsets` looks like this:
 
 ---
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/tables_subsets_ready_screenshot.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure 5:** Screenshot of the subsets table after filtering aldehides, primary amines and aminoacids.</figcaption>
+  <figcaption>**Figure 5:** Screenshot of `tables_subsets` after filtering **aldehydes**, **amines** and **aminoacids**.</figcaption>
   </p>
 </figure>
 ---
 
-In this specific example, the filtered tables contains:
+In this specific example, the resulting filtered tables contained:
 - ***Aldehydes:*** 227,985 compounds
 - ***Primary/Secondary amines:*** 1,420,273
 - ***Aminoacids:*** 5,405
@@ -252,150 +256,159 @@ In this specific example, the filtered tables contains:
 A random set of each subseted table can be depicted:
 
 ```python 
-# Randomly depict 25 aldehydes
+> # Randomly depict 25 aldehydes
 >>> synthesis_example_chemspace.depict_ligand_table("emolecules_subset_1", limit=25,random=True)
-# Randomly depict 25 primary amines
+> # Randomly depict 25 primary amines
 >>> synthesis_example_chemspace.depict_ligand_table("emolecules_subset_2", limit=25,random=True)
-# Randomly depict 25 aminoacids
+> # Randomly depict 25 aminoacids
 >>> synthesis_example_chemspace.depict_ligand_table("emolecules_subset_3", limit=25,random=True)
 ```
 
 The resulting depictions are:
 
-- **Aldehydes**
+- **Aldehydes** -> 25 / 227,985
 ---
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_21_0.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure 6:** Set of 25 randomly picked aldehydes.</figcaption>
+  <figcaption>**Figure 6:** Set of 25 randomly picked **aldehydes**.</figcaption>
   </p>
 </figure>
 ---
 
 
-- **Primary/Secondary amines**
+- **Primary/Secondary amines** -> 25 / 1,420,273
 
 ---
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_20_0.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure 6:** Set of 25 randomly picked primary amines.</figcaption>
+  <figcaption>**Figure 7:** Set of 25 randomly picked **amines**.</figcaption>
   </p>
 </figure>
 ---
 
 
-- **Aminoacids**
+- **Aminoacids** -> 25 / 5,405
 
 ---
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/emolecules_subset_18_0.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure 6:** Set of 25 randomly picked aminoacids.</figcaption>
+  <figcaption>**Figure 8:** Set of 25 randomly picked **aminoacids**.</figcaption>
   </p>
 </figure>
 ---
 
-It is clear that exploring the while set of combinatorial possibilities towards 1,4 disubstituted 1,2,3-triazoles is not possible in terms of computational costs. Thus, some filtering (such as by drug-like properties) on the resulting subsets can be performed. In this way, the corresponding properties can be computed for each table subset: 
+It is clear that exploring the while set of combinatorial possibilities towards 1,4 disubstituted 1,2,3-triazoles is not possible in terms of the enormous number of compounds that would be generated (*n* = 227,985 * 1,420,273 * 5,405). Thus, some filtering/prioritization criteria, such as by drug-like properties, may be accomplished on the resulting subsets. In this way, different physicochemical properties can be computed for each table subset as follows: 
 
 ```python
-## By default the properties are computed: ["MolWt","MolLogP","NumHDonors","NumHAcceptors","NumRotatableBonds","TPSA"]
-### You can specify whatever property computed by RDKit you wan using the 'properties_list' keyword
+> ## By default the properties are computed: ["MolWt","MolLogP","NumHDonors","NumHAcceptors","NumRotatableBonds","TPSA"]
+> ### You can specify whatever property computed by RDKit you wan using the 'properties_list' keyword
 >>> synthesis_example_chemspace.compute_properties("emolecules_subset_1")
 ```
 
-Now the `emolecules_subset_1` contains additional columns included de computed properties:
+After computing the properties, the `emolecules_subset_1` contains additional columns including de calculated values:
 
 ---
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/table_with_computed_properties.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure X:** --- .</figcaption>
+  <figcaption>**Figure 9:** Screenshot of `emolecules_subset_1` after computing default physicochemical properties.</figcaption>
   </p>
 </figure>
 ---
 
-Now imagine you want to subset a given table containing computed properties using the following criteria:
-- MolWt \>= 200 and MolWt \<= 500
-- MolLogP \>=1.5 and MolLogP \<= 3 
-- NumRotatableBonds \<= 2
+It is now possible to subset a given table containing computed properties. As an example, lets use the following criteria:
+- `MolWt` \>= 200 and `MolWt` \<= 500
+- `MolLogP` \>=1.5 and `MolLogP` \<= 3 
+- `NumRotatableBonds` \<= 2
 
-you should construct the list: `["MolWt>=200","MolWt<=500","MolLogP>=1.5","MolLogP<=3","NumRotatableBonds<=2"]` and pass it to the corresponding subsetting method:
+In order to combine the filtering criteria, it is possible to construct a *Python* list indicating the threshold values as follows: `["MolWt>=200","MolWt<=500","MolLogP>=1.5","MolLogP<=3","NumRotatableBonds<=2"]`. This list can now be passed the corresponding subsetting method in TidyScreen:
 
 ```python 
+> # Subset 'emolecules_subset_1' using the given properties thresholds
 >>> synthesis_example_chemspace.subset_table_by_properties("emolecules_subset_1",["MolWt>=200","MolWt<=500","MolLogP>=1.5","MolLogP<=3","NumRotatableBonds<=2"])
 ```
 
-Upon execution, a record will be stored in the `tables_subsets` table:
+After executing the filtering, a record of the action will be stored in the `tables_subsets` table:
 
 ---
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/subsetting_by_props.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure X:** --- .</figcaption>
+  <figcaption>**Figure 10:** Screenshot of the `tables_subsets`which registers the filtering/subseting actions.</figcaption>
   </p>
 </figure>
 ---
 
-As can be seen the table `emolecules_subset_1_subset_4` has been created based on the corresponding filtering workflow. It is advisable to retain this table name for tracebility in the reactants filterings. If the user wants to copy this subsetted table with a more comprehensive name, it can be done as follows:
+As can be seen the table `emolecules_subset_1_subset_4` has been created based on the corresponding filtering workflow. It is advisable to retain this table name for tracebility of the reactants filterings history. If the user wants to copy this subsetted table with a more comprehensive name, it can be done as follows:
 
 ```python
-## Copy the subseted table with a new name
+> ## Copy the subseted table with a new name
 >>> synthesis_example_chemspace.copy_table_to_new_name("emolecules_subset_1_subset_4","aldehydes_for_A3_coupling")
 ```
 
 In case the user wants to save the filtered table as a `.csv` file for storing purposes use:
 
 ```python
-# Save a .csv file with the filtered table
+> # Save a .csv file with the filtered table
 >>> synthesis_example_chemspace.save_table_to_csv("emolecules_subset_1_subset_4")
 ```
 
-For the purposes of this example, custom drug-like filtering criterias were applied on the aldehydes, primary amines and aminoacids, leading to a set of:
-- [Aldehydes](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/Ald_filtered_druglike.csv): 51 building blocks
-- [Primary/Secondary amines](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/Amines_filtered_druglike.csv): 22 building blocks
-- [Aminoacids](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/AA_filtered_druglike.csv): 35 building blocks
+For the purposes of this example and following the procedures applied by [Cerutti et al](https://www.mdpi.com/1420-3049/29/17/4224), custom drug-like filtering criterias were used to reproduce the bulding blocks selection, leading to a set of:
+- [*Aldehydes*](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/Ald_filtered_druglike.csv) : 51 building blocks
+- [*Primary/Secondary amines*](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/Amines_filtered_druglike.csv) : 22 building blocks
+- [*Aminoacids*](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/AA_filtered_druglike.csv) : 35 building blocks
 
-The combinatorial synthesis of the building blocks will lead to a library of 39270 1,2,3-triazoles.
+The combinatorial synthesis of the building blocks will lead to a library of 39,270 1,2,3-triazoles.
 
 
 ### Definition of single SMARTS reactions
 
-It is now the moment to create the corresponding single reactions to be combined into the overall synthetic workflow. It should be noted that SMARTS based reactions that are created by the user belongs to the specific project, and should be created by the user based in the specific synthetic plan. 
+It is now the moment to create the corresponding single reactions to be combined into the overall synthetic workflow. It should be noted that [SMARTS](https://www.daylight.com/dayhtml/doc/theory/theory.smarts.html) based reactions that are created by the user belongs only to this specific project (i.e. they are not stored system-wide as chemical filters are). The reason behind this implementation is that these reactions are dependent on the specific synthetic plan associated to the project. 
 
-To list available reactions for the current project, used the corresponding method as follows:
+In order to list available reactions for the current project, use the corresponding method:
 
 ```python
-# List available reactions in the current project
+> # List available reactions in the current project
 >>> synthesis_example_chemspace.list_available_smarts_reactions() 
+
+> # Outputs
+>>> "SMARTS reactions table does not exist yet. Add reactions to the database first."
 ```
 
-Note that the first time you run this listing, since no reactions are available for the project, the message `"SMARTS reactions table does not exist yet. Add reactions to the database first."` will be printed to the terminal. To add user defined reactions in the SMARTS formats use: 
+Note that the first time you run this listing, since no reactions are available within the project, the message `"SMARTS reactions table does not exist yet. Add reactions to the database first."` will be printed to the terminal. To add user defined reactions in the SMARTS formats proceed as follows: 
 
 ```python
-# Template to add single reactions to the project database
+> # Template to add single reactions to the project database
 >>> synthesis_example_chemspace.add_smarts_reaction("SMARTS_REACTION", "Description") 
 ```
-In the context of the chemical synthesis shown in **Figure 2**, we are interested in performing the following reactions as part of our synthetic scheme:
+In the context of the synthetic plan shown in **Figure 2**, we are interested in chaining the following reactions as part of our synthetic scheme:
 
-1. **Diazotransfer on aminocids:** `[NX3;H2:1][CX4:2][CX3,H0:3]>>[N-]=[N+]=[NX2;H0:1][CX4:2][CX3,H0:3]`
-2. **Acylation of carboxylic acids:** `[CX3:1](=[O:2])[OX2H,OX1-:3].[C:4][O]>>[C:1](=[O:2])[O:3][C:4]`
-3. **A3 Coupling reaction:** `[N:1].[CX3H1:2](=[O:3])>>[N:1][C:2][C:4]#[C:5]`
-4. **CuAAC reaction:** `[NX1-:1]=[NX2+:2]=[NX2:3].[CX2H1:4]#[CX2H0:5]>>[NX2+0:1]1=[NX2+0:2][N:3]-[C:4]=[C:5]1`
-5. **DIBAL reduction:** `[CX3:1](=[O:2])[OX2H,OX1-:3]>>[CX3H1:1](=[O:2])`
+1. ***Diazotransfer on aminocids:*** `[NX3;H2:1][CX4:2][CX3,H0:3]>>[N-]=[N+]=[NX2;H0:1][CX4:2][CX3,H0:3]`
+2. ***Acylation of carboxylic acids:*** `[CX3:1](=[O:2])[OX2H,OX1-:3].[C:4][O]>>[C:1](=[O:2])[O:3][C:4]`
+3. ***A3 Coupling reaction:*** `[N:1].[CX3H1:2](=[O:3])>>[N:1][C:2][C:4]#[C:5]`
+4. ***CuAAC reaction:*** `[NX1-:1]=[NX2+:2]=[NX2:3].[CX2H1:4]#[CX2H0:5]>>[NX2+0:1]1=[NX2+0:2][N:3]-[C:4]=[C:5]1`
+5. ***DIBAL reduction:*** `[CX3:1](=[O:2])[OX2H,OX1-:3]>>[CX3H1:1](=[O:2])`
 
-Lets add the corresponding reactions:
+:::info
+The construction of SMARTS based reactions should be carefully analyzed and tested. There are several tutorials in the web on how to construct them. [This](https://drzinph.com/learning-reaction-smarts-a-practical-guide-to-reaction-based-patterns/) is an example.
+:::
+
+
+At this point, we should add the corresponding reactions to the project database:
 
 ```python
-# Add the diazotransfer reaction
+> # Add the diazotransfer reaction
 >>> synthesis_example_chemspace.add_smarts_reaction("[NX3;H2:1][CX4:2][CX3,H0:3]>>[N-]=[N+]=[NX2;H0:1][CX4:2][CX3,H0:3]", "Diazotransfer") 
-# Add a general acylation reaction
+> # Add a general acylation reaction
 >>> synthesis_example_chemspace.add_smarts_reaction("[CX3:1](=[O:2])[OX2H,OX1-:3].[C:4][O]>>[C:1](=[O:2])[O:3][C:4]", "Acylation") 
-# Add the A3 coupling reaction
+> # Add the A3 coupling reaction
 >>> synthesis_example_chemspace.add_smarts_reaction("[N:1].[CX3H1:2](=[O:3])>>[N:1][C:2][C:4]#[C:5]", "A3 coupling") 
-# Add the CuAAC reaction
+> # Add the CuAAC reaction
 >>> synthesis_example_chemspace.add_smarts_reaction("[NX1-:1]=[NX2+:2]=[NX2:3].[CX2H1:4]#[CX2H0:5]>>[NX2+0:1]1=[NX2+0:2][N:3]-[C:4]=[C:5]1", "CuAAC") 
-#Add the DIBAL reduction reaction
+> #Add the DIBAL reduction reaction
 >>> synthesis_example_chemspace.add_smarts_reaction("[CX3:1](=[O:2])[OX2H,OX1-:3]>>[CX3H1:1](=[O:2])", "DIBAL reduction") 
 ```
 
@@ -405,7 +418,7 @@ Upon adding reactions, a table named `smarts_reactions` will be created in the `
 <figure>
   <p align="left">
   <img src="/TidyScreen_v2_docs_new/img/smarts_reactions_table.png" alt="Description of image" width="500"/>
-  <figcaption>**Figure X:** Screenshot of the table containing the SMARTS reactions added to the project.</figcaption>
+  <figcaption>**Figure 11:** Screenshot of the table containing the SMARTS reactions added to the project.</figcaption>
   </p>
 </figure>
 ---
@@ -413,12 +426,12 @@ Upon adding reactions, a table named `smarts_reactions` will be created in the `
 
 ### Creation and execution of a reaction workflow
 
-Once reactions are available within the poject, they are executed as part of a *reaction workflow* which can involve one or more steps, including also products generated within the same workflow. In order to check the correctness of the reactions definition, it is a good idea to incrementally construct the final workflow, performing *dry runs* to check if the reactants were processed adequately.
+Once reactions are available within the project, they can be executed as single/multiples steps combined into a *reaction workflow*. Reaction steps can also products generated within the same workflow. In order to check the correctness of the reactions definition, it is a good idea to incrementally construct the final workflow, performing `dry_runs` to check if the reactants were processed adequately.
 
 Lets start by applying the *A3 coupling* reaction:
 
 ```python
-# Create a workflow involving a single A3 coupling step (reaction id: 3)
+> # Create a workflow involving a single A3 coupling step (reaction id: 3)
 >>> synthesis_example_chemspace.add_smarts_reaction_workflow([3])
 ```
 
@@ -428,7 +441,7 @@ A new table named `smarts_reactions_workflow` has been created in `chemspace.db`
 <figure>
   <p align="left">
   <img src="/TidyScreen_v2_docs_new/img/smarts_reactions_workflow.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure X:** --- .</figcaption>
+  <figcaption>**Figure 12:** Screenshot of the `smarts_reactions_workflow` table containing available synthetic pipelines.</figcaption>
   </p>
 </figure>
 ---
@@ -436,94 +449,94 @@ A new table named `smarts_reactions_workflow` has been created in `chemspace.db`
 Available reaction workflows can also be printed to the terminal using:
 
 ```python
-# List available reaction workflows
+> # List available reaction workflows
 >>> synthesis_example_chemspace.list_available_reactions_workflows()
 ```
 
-Now lets test (i.e. a dry run) the reaction workflow id '1' with the corresponding reactants:
+Now lets execute a test (i.e. select a `dry_run`) using the reaction workflow id `'1'` and providing the corresponding reactants:
 
 ```python
-# Execute reaction workflow id = 1 (A3 coupling reaction)
+> # Execute the reaction workflow id = 1 (A3 coupling reaction)
 >>> synthesis_example_chemspace.apply_reaction_workflow(1,[["Amines_filtered_druglike","Ald_filtered_druglike"]],dry_run=1)
 
-# Outputs:
-> Checking the reaction workflow definition vs the reactants lists: OK
-> apply_single_bimolecular_reaction_step
-Z React.Step 0: - Reaction: [N:1].[CX3H1:2](=[O:3])>>[N:1][C:2][C:4]\#[C:5] - Reactants1: 22 - Reactants2: 51 - Products: 1122 
+> # Outputs:
+>>> Checking the reaction workflow definition vs the reactants lists: OK
+>>> apply_single_bimolecular_reaction_step
+>>> React.Step 0: - Reaction: [N:1].[CX3H1:2](=[O:3])>>[N:1][C:2][C:4]\#[C:5] - Reactants1: 22 - Reactants2: 51 - Products: 1122 
 ```
 
-As can be seen, the checking of the workflow definition passes ok, after after a *single bimolecular* reaction step was detected, the reaction SMARTS informed and applied. Combination of 22 amines with 51 aldehydes should originate 1122 product, which is in aggreement to what is informed. Consequently this reaction step is validated.
+As can be seen, the system validation of the workflow definition passed ok, indicating that a *single bimolecular* reaction step was detected, further informing and applying the reaction SMARTS. Combination of 22 amines with 51 aldehydes should originate 1122 product, which is in aggreement to what is informed. Consequently this reaction step is validated.
 
 Lets add and execute the azide formation step starting from aminoacid building blocks:
 
 ```python
-# Create a workflow involving a single diazotransfer step (reaction id: 1)
+> # Create a workflow involving a single diazotransfer step (reaction id: 1)
 >>> synthesis_example_chemspace.add_smarts_reaction_workflow([1])
 
-# Execute reaction workflow id = 2 (diazotransfer reaction)
+> # Execute reaction workflow id = 2 (diazotransfer reaction)
 >>> synthesis_example_chemspace.apply_reaction_workflow(2,[["AA_filtered_druglike"]],dry_run=1)
 
-# Outputs:
-Reaction step 0 applied successfully. Products stored in column: 'SMILES_product_step_0'
-Reaction step 0: - Reaction: [NX3;H2:1][CX4:2][CX3,H0:3]>>[N-]=[N+]=[NX2;H0:1][CX4:2][CX3,H0:3] - Number of reactants: 35 - Number of products: 35
+> # Outputs:
+>>> Reaction step 0 applied successfully. Products stored in column: 'SMILES_product_step_0'
+>>> Reaction step 0: - Reaction: [NX3;H2:1][CX4:2][CX3,H0:3]>>[N-]=[N+]=[NX2;H0:1][CX4:2][CX3,H0:3] - Number of reactants: 35 - Number of products: 35
 ```
 
-Again the number of products is consistent with the expected ones, confirming that the reaction has been adequately defined. 
+Again the number of products is consistent with which was expected, confirming that the reaction has been adequately defined. 
 
-Let combine and execute all the steps involved in the synthetic schem (A3 coupling, azidotransfer and CuAAC) into a single chained workflow :
+Let combine and execute all the steps involved in the synthetic scheme (**A3 coupling** -> **azidotransfer** -> **CuAAC**) into a multistep workflow :
 
 ```python
-# Create a workflow involving a single diazotransfer step (reaction id: 1)
+> # Create a workflow involving a single diazotransfer step (reaction id: 1)
 >>> synthesis_example_chemspace.add_smarts_reaction_workflow([3,1,4])
 
-# Execute reaction workflow id = 3 (chained synthetic scheme)
+> # Execute reaction workflow id = 3 (chained synthetic scheme)
 >>> synthesis_example_chemspace.apply_reaction_workflow(3,[["Amines_filtered_druglike","Ald_filtered_druglike"],["AA_filtered_druglike"],["->:-1","->:-2"]],dry_run=1)
 
-# Outputs
-> Checking the reaction workflow definition vs the reactants lists: OK
-> apply_single_bimolecular_reaction_step
-> React.Step 0: - Reaction: [N:1].[CX3H1:2](=[O:3])>>[N:1][C:2][C:4]\#[C:5] - Reactants1: 22 - > Reactants2: 51 - Products: 1122 
->
-> Reaction step 1 applied successfully. Products stored in column: 'SMILES_product_step_1'
-> Reaction step 1: - Reaction: [NX3;H2:1][CX4:2][CX3,H0:3]>>[N-]=[N+]=[NX2;H0:1][CX4:2][CX3,H0:3] - > Number of reactants: 35 - Number of products: 35 
->
-> Previous step references: 1, 2
-> apply_single_bimolecular_reaction_step
-> React.Step 2: - Reaction: [NX1-:1]=[NX2+:2]=[NX2:3].[CX2H1:4]\#[CX2H0:5]>>[NX2+0:1]1=[NX2+0:2][N:3]->[C:4]=[C:5]1 - Reactants1: 35 - Reactants2: 1122 - Products: 39270 
+> # Outputs
+>>> Checking the reaction workflow definition vs the reactants lists: OK
+>>> apply_single_bimolecular_reaction_step
+>>> React.Step 0: - Reaction: [N:1].[CX3H1:2](=[O:3])>>[N:1][C:2][C:4]\#[C:5] - Reactants1: 22 - > Reactants2: 51 - Products: 1122 
+>>>
+>>> Reaction step 1 applied successfully. Products stored in column: 'SMILES_product_step_1'
+>>> Reaction step 1: - Reaction: [NX3;H2:1][CX4:2][CX3,H0:3]>>[N-]=[N+]=[NX2;H0:1][CX4:2][CX3,H0:3] - > Number of reactants: 35 - Number of products: 35 
+>>>
+>>> Previous step references: 1, 2
+>>> apply_single_bimolecular_reaction_step
+>>> React.Step 2: - Reaction: [NX1-:1]=[NX2+:2]=[NX2:3].[CX2H1:4]\#[CX2H0:5]>>[NX2+0:1]1=[NX2+0:2][N:3]->[C:4]=[C:5]1 - Reactants1: 35 - Reactants2: 1122 - Products: 39270 
 ```
 
-Note how the reactant for the third reaction step (CuAAC) have been defined: 
-- `"->:-1"`; means "input the products of the previous step (-1, Azides)
-- `"->:-2"`; means "input the products of the two reaction steps before (-2, alkynes obtained from the A3 coupling reaction)
+Note how the reactants for the third reaction step (**CuAAC**) have been defined: 
+- `"->:-1"` : means "input the products of the previous step (-1, Azides)"
+- `"->:-2"` : means "input the products of the two reaction steps before (-2, alkynes obtained from the A3 coupling reaction)"
 
-As can be seen the combinatorial number of triazoles generated (*n* = 39270) matches the expected products.
+As can be seen, the combinatorial number of triazoles generated (*n* = 39270) is in agreement with what we expected.
 
-With the definition of the reaction workflow being checked, we can now run it in production mode:
+With the definition of the reaction workflow being checked, we can now run it in **production mode**:
 
 ```python
-# Create a workflow involving a single diazotransfer step (reaction id: 1)
+> # Create a workflow involving a single diazotransfer step (reaction id: 1)
 >>> synthesis_example_chemspace.add_smarts_reaction_workflow([3,1,4])
 
-# Execute reaction workflow id = 3 (chained synthetic scheme)
+> # Execute reaction workflow id = 3 (chained synthetic scheme)
 >>> synthesis_example_chemspace.apply_reaction_workflow(3,[["Amines_filtered_druglike","Ald_filtered_druglike"],["AA_filtered_druglike"],["->:-1","->:-2"]])
 ```
 
-A registry corresponding to the execution of the reaction workflow will be generated in the table `reactions_attempts` within the `chemspace.db` database:
+After executing the synthetic workflow, a registry is generated in the table `reactions_attempts` within the `chemspace.db` database:
 
 ---
 <figure>
   <p align="left">
   <img src="/TidyScreen_v2_docs_new/img/reactions_attempts_table.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure X:** --- .</figcaption>
+  <figcaption>**Figure 13:** Screenshot of the `reactions_attempts` table indicating the execution of the synthetic workflow.</figcaption>
   </p>
 </figure>
 ---
 
-As indicated the table `reaction_set_1` containing the reaction products has been created. Lets depict a subset of 25 products from it:
+As shown, the table `reaction_set_1` containing the reaction products has been created. Lets depict a subset of 25 products stored within it:
 
 
 ```python 
-# Randomly depict 25 1,2,3-triazoles obtained by combinatorial virtual synthesis
+> # Randomly depict 25 1,2,3-triazoles obtained by combinatorial virtual synthesis
 >>> synthesis_example_chemspace.depict_ligand_table("reaction_set_1", limit=25,random=True)
 ```
 
@@ -539,11 +552,11 @@ As indicated the table `reaction_set_1` containing the reaction products has bee
 </figure>
 ---
 
-At this point, library of 1,4 disubstituted 1,2,3-triazoles contained within table `reaction_set_1` is ready for firther processing towards the screening of potential CZP targeted covalent inhibitors. Some of the steps following the virtual screening campaing may encompass:
+At this point, library of 1,4 disubstituted 1,2,3-triazoles contained within table `reaction_set_1` is ready for further processing towards the screening of potential CZP targeted covalent inhibitors. Some of the steps following the virtual screening campaing may encompass:
 
-- Computation of drug-like properties and chemical space sampling/prioritization of the 39270 triazoles;
-- Further chemical modifications, such warhead modifications on the set of 39270 triazoles;
-- Prepartion and execution of molecular docking docking studies on a CZP receptor model/s.
+- Computation of drug-like properties and chemical space sampling/prioritization of the 39,270 triazoles synthesized virtually;
+- Further chemical modifications by applying new synthetic workflows, such as warhead modifications on this set of 39,270 triazoles;
+- Preparation and execution of molecular docking docking studies on a CZP receptor model/s.
 - Etc.
 
 Just play with TidyScreen and be creative!
