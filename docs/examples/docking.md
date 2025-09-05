@@ -2,7 +2,7 @@
 title: Molecular Docking studies
 ---
 
-**Author:** *Juan Pablo Cerutti (jpcerutti@unc.edu.ar) – August 2025*
+**Author:** *Juan Pablo Cerutti (jpcerutti@unc.edu.ar) – September 2025*
 
 ## Aminoglycosides
 
@@ -10,26 +10,26 @@ title: Molecular Docking studies
 
 Mechanistically, aminoglycosides exert bactericidal activity by binding to the bacterial ribosomal 30S subunit, specifically to the A-site (aminoacyl) of the 16S rRNA. This interaction induces codon misreading and disrupts translation, ultimately blocking protein synthesis. Owing to the structural differences between prokaryotic and eukaryotic ribosomes, aminoglycosides are selective drugs; however, they are associated with nephrotoxic and ototoxic side effects. Ototoxicity has been reported in 2–45% of adults, while nephrotoxicity occurs in up to 10–25% of patients. The availability of third-generation cephalosporins, carbapenems, and fluoroquinolones in the 1980s reduced systemic use of aminoglycosides, but the rise of multidrug-resistant (MDR) pathogens has renewed interest in this antibiotic class.[^1]<sup>,</sup>[^2]<sup>,</sup>[^3]
 
-Structurally, aminoglycosides are based on aminocyclitol aglycones such as 2-deoxystreptamine (2-DOS), streptamine, or streptidine. The most active compounds typically contain 2-DOS as the aglycone unit, including **gentamicin**.[^1]<sup>,</sup>[^2]<sup>,</sup>[^3] Gentamicin remains clinically important for treating sinopulmonary infections (notably in cystic fibrosis), complicated urinary tract infections, and as empiric therapy in neonates. Its use is, however, limited by reversible nephrotoxicity and irreversible ototoxicity. Gentamicin is also distinctive in that it is supplied as a mixture of major and minor components rather than as a single, well-defined structure. According to the U.S. Pharmacopeia (USP), formulations must contain 10–35% gentamicin C1a, 25–55% gentamicin C2/C2a, and 25–50% gentamicin C1. This variability implies that antibacterial activity can differ across USP-compliant products.
+Structurally, aminoglycosides are based on aminocyclitol aglycones such as 2-deoxystreptamine (2-DOS), streptamine, or streptidine. The most active compounds typically contain 2-DOS as the aglycone unit, including **gentamicin**.[^1]<sup>,</sup>[^2]<sup>,</sup>[^3] Gentamicin remains clinically important for treating sinopulmonary infections (notably in cystic fibrosis), complicated urinary tract infections, and as empiric therapy in neonates. Its use is, however, limited by reversible nephrotoxicity and irreversible ototoxicity. Gentamicin is also distinctive in that it is supplied as a mixture of major and minor components rather than as a single, well-defined structure (**Figure 1**). According to the U.S. Pharmacopeia (USP), formulations must contain 10–35% gentamicin C1a, 25–55% gentamicin C2/C2a, and 25–50% gentamicin C1. This variability implies that antibacterial activity can differ across USP-compliant products.
 
 ---
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/Genta_Components.png" alt="Description of image" width="700"/>
-  <figcaption>**Figure X:** Structural data of Gentamicin major and minor components.[^2] </figcaption>
+  <figcaption>**Figure 1:** Structural data of Gentamicin major and minor components.[^2] </figcaption>
   </p>
 </figure>
 ---
 
 Recent studies have systematically examined the antimicrobial activity and ototoxicity of individual gentamicin components, including minor congeners and impurities.[^2] Results showed that the five major congeners (C1, C1a, C2, C2a, C2b) and the minor component sisomicin were as potent as the mixture, indicating that the broad spectrum of gentamicin is not due to being a mixture. Importantly, only C2b displayed lower ototoxicity than the mixture; C1, C1a, and C2a showed comparable toxicity, while C2 and several “impurities” were more toxic. Despite these insights, no clear structure–activity relationships (SAR) were defined to rationalize potency differences among congeners. Such knowledge would be valuable for designing safer, more potent gentamicin analogues.
 
-Crystallographic structures of gentamicin C1a bound to the ribosomal A-site (PDB ID: [2ET3](https://www.rcsb.org/structure/2ET3)) provide an excellent starting point for molecular docking, since they capture the antibiotic in complex with its physiological target, enabling validation of docking protocols and serving as a reference to assess the reliability of predicted binding modes for other congeners.
+Crystallographic structures of gentamicin C1a bound to the ribosomal A-site (PDB ID: [2ET3](https://www.rcsb.org/structure/2ET3)) provide an excellent starting point for molecular docking, since they capture the antibiotic in complex with its physiological target (**Figure 2**), enabling validation of docking protocols and serving as a reference to assess the reliability of predicted binding modes for other congeners.
 
 ---
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/Genta_Crystal.png" alt="Description of image" width="500"/>
-  <figcaption>**Figure X:** Secondary structure of the crystallized RNA helix, highlighting the A site. Structure adopted by the gentamicin C1A molecule inside the A site of the duplex. PDB ID of the crystal structure reported.[^3] </figcaption>
+  <figcaption>**Figure 2:** Secondary structure of the crystallized RNA helix, highlighting the A site. Structure adopted by the gentamicin C1A molecule inside the A site of the duplex. PDB ID of the crystal structure reported.[^3] </figcaption>
   </p>
 </figure>
 ---
@@ -37,16 +37,22 @@ Crystallographic structures of gentamicin C1a bound to the ribosomal A-site (PDB
 
 Thus, in this tutorial we will:
 
-1. Replicate the crystallographic structure of the gentamicin C1a:rRNA complex to validate the target and define appropriate docking conditions.  
+1. Replicate the crystallographic binding mode Gentamicin C1a to validate the target and define appropriate docking conditions.  
 2. Extend the study to the full set of gentamicin congeners (major and minor) to explore potential pharmacodynamic bases for the reported differences in potency.  
 3. Perform docking-based virtual high-throughput screening (vHTS) to identify novel gentamicin analogues as promising candidates with improved antimicrobial activity.  
 
 
 :::info[Software]
 
-In this tutorial, we will rely on [*AutoDock*](https://autodock.scripps.edu/wp-content/uploads/sites/56/2021/10/AutoDock4.2.6_UserGuide.pdf) for the molecular docking studies and [*ProLIF*](https://prolif.readthedocs.io/en/latest/source/tutorials.html)/[*MMGBSA*](https://pubs.acs.org/doi/10.1021/ct300418h) for interaction fingerprint analysis.  
+In this tutorial, we will rely on the following software packages:
+
+- [*AutoDock*](https://autodock.scripps.edu/wp-content/uploads/sites/56/2021/10/AutoDock4.2.6_UserGuide.pdf) for the molecular docking studies.  
+- [*AutoDock Tools (ADT)*](http://autodock.scripps.edu) to prepare receptors, ligands, grid parameters and other files required by AutoDock.  
+- [*Open Babel*](https://open-babel.readthedocs.io/en/latest/index.html) for format conversion and ligand preprocessing.  
+- [*ProLIF*](https://prolif.readthedocs.io/en/latest/source/tutorials.html) and [*MMGBSA*](https://pubs.acs.org/doi/10.1021/ct300418h) for post-docking interaction fingerprint analysis and energetic decomposition.  
 
 For further guidance on installation, parameters, or advanced usage, please consult the official documentation and tutorials of each package.  
+
 
 :::
 
@@ -57,7 +63,7 @@ For further guidance on installation, parameters, or advanced usage, please cons
 
 
 
-## 1. Replication of crystallography 
+## 1. Replication of the crystallographic binding mode of Gentamicin
 
 Create and activate a dedicated TidyScreen project to store, process, filter and synthesize the target library of compounds:
 
@@ -68,7 +74,6 @@ from tidyscreen.chemspace import chemspace as chemspace
 from tidyscreen.moldock import moldock as moldock
 from tidyscreen.docking_analysis import docking_analysis as docking_analysis
 from tidyscreen.GeneralFunctions import general_functions as general_functions
-from tidyscreen.moldyn import moldyn as moldyn
 
 # Create a dedicated project for the synthesis
 ts.create_project("$HOME/Desktop/example", "Aminoglycosides")
@@ -85,18 +90,18 @@ Molecular docking software requires both the receptor (target) and the ligand to
 
 This step ensures that the experimentally solved crystal structure can be translated into a computational model compatible with docking engines. Without proper parametrization, the docking algorithm may fail to recognize key interactions or generate unrealistic binding poses.
 
-In particular, *AutoDock* requires .prmtop files.
+In particular, *AutoDock* requires .pdbqt files.
 
 :::
 
-### 1.1. Target
+### 1.1. Receptor preparation
 
 #### 1.1.1. Download, clean and parametrize the crystal
 
 The first step consists of preparing the RNA target from the crystallographic structure (PDB ID: 2ET3) so that it can be used by AutoDock.  
 This involves downloading the structure, removing non-essential molecules (ligand, solvent, crystallization agents), adding hydrogens at physiological pH, and finally generating a parameterized `.pdbqt` file with the correct atom types and charges.  
 
-Thus, inside the `$HOME/Desktop/example/Aminoglycosides/docking/raw_data` folder, run the following script:
+Thus, inside the `$HOME/Desktop/example/Aminoglycosides/docking/raw_data` folder (which is automatically generated during project creation), run the following script:
 
 ```python
 # Create a new folder
@@ -115,9 +120,13 @@ pdb_selresname -LLL 2ET3.pdb | pdb_selchain -B > genta.pdb
 obabel -ipdb genta_target.pdb -opdb -p 7.4 -O genta_target.pdb
 
 # Generate PDBQT files
-python-adt prepare_receptor4.py -r genta_target.pdb -o genta_target.pdbqt -A checkhydrogens -U nphs_lps_waters
+# NOTE: `prepare_receptor4.py` and `prepare_ligand4.py` are provided within AutoDockTools (MGLTools).
+# Replace /PATH/TO/MGLTOOLS with the path where MGLTools was installed on your system.
+# Example: $HOME/mgltools_x86_64Linux2_1.5.7/bin/pythonsh
 
-python-adt prepare_ligand4.py -l genta.pdb -A hydrogens 
+/PATH/TO/MGLTOOLS/bin/pythonsh prepare_receptor4.py -r genta_target.pdb -o genta_target.pdbqt -A checkhydrogens -U nphs_lps_waters
+
+/PATH/TO/MGLTOOLS/bin/pythonsh prepare_ligand4.py -l genta.pdb -A hydrogens 
 ```
 
 You should get two new files: `genta_target.pdbqt` and `genta.pdbqt`.
@@ -151,7 +160,7 @@ center_x=31.474 center_y=7.643 center_z=26.304
 Now, we define the Grid Parameter File (GPF) to generate the AutoGrid maps.  
 
 ```bash
-python-adt prepare_gpf4.py -l genta.pdbqt -r genta_target.pdbqt -p npts=64,48,50 -p spacing=0.300 -p ligand_types=C,HD,OA,N,NA -p gridcenter=31.474,7.643,26.304
+/PATH/TO/MGLTOOLS/bin/pythonsh prepare_gpf4.py -l genta.pdbqt -r genta_target.pdbqt -p npts=64,48,50 -p spacing=0.300 -p ligand_types=C,HD,OA,N,NA -p gridcenter=31.474,7.643,26.304
 ```
 The `genta_target.gpf` file should be created.
 
@@ -230,7 +239,7 @@ variable 6 file=genta_target.e.map filetype=ascii skip=6
 variable 7 file=genta_target.d.map filetype=ascii skip=6
 ```
 
-These files must be located in the working directory before launching the docking calculation.
+
 
 ### 1.2. Ligand: Gentamicin C1a
 
@@ -256,7 +265,7 @@ aminoglycosides_example_chemspace.input_csv("$HOME/Desktop/example/Aminoglycosid
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/GentamicinC1a_chemspace.png" alt="Description of image" width="800"/>
-  <figcaption>**Figure X:** Screenshot of the initial chemspace table of Gentamicin C1a. </figcaption>
+  <figcaption>**Figure 3:** Screenshot of the initial chemspace table of Gentamicin C1a. </figcaption>
   </p>
 </figure>
 ---
@@ -277,7 +286,7 @@ aminoglycosides_example_chemspace.generate_mols_in_table("GentamicinC1a", timeou
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/GentamicinC1a_chemspace_charges.png" alt="Description of image" width="900"/>
-  <figcaption>**Figure X:** Screenshot of the ChemSpace table of Gentamicin C1a showing the generated output files (`.pdb`, `.pdbqt`, `.mol2`, and `.frcmod`) after parameterization. </figcaption>
+  <figcaption>**Figure 4:** Screenshot of the ChemSpace table of Gentamicin C1a showing the generated output files (`.pdb`, `.pdbqt`, `.mol2`, and `.frcmod`) after parameterization. </figcaption>
   </p>
 </figure>
 ---
@@ -316,7 +325,7 @@ This information will be very useful in the future, especially when your databas
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/Receptor_db.png" alt="Description of image" width="900"/>
-  <figcaption>**Figure X:** Screenshot of the `docking/receptors/receptor.db`. </figcaption>
+  <figcaption>**Figure 5:** Screenshot of the `docking/receptors/receptor.db`. </figcaption>
   </p>
 </figure>
 ---
@@ -333,7 +342,7 @@ aminoglycosides_example_docking.create_docking_params_set()
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/Default_Conditions.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure X:** Screenshot of the `docking/params/docking_params.db`. </figcaption>
+  <figcaption>**Figure 6:** Screenshot of the `docking/params/docking_params.db`. </figcaption>
   </p>
 </figure>
 ---
@@ -345,13 +354,17 @@ For example, you can increase the number of docking runs from 20 to 100 (*--nrun
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/Default_100_contact-analysis.png" alt="Description of image" width="900"/>
-  <figcaption>**Figure X:** Manually modified docking conditions (--nrun and --contact_analysis) in the `docking/params/docking_params.db`. </figcaption>
+  <figcaption>**Figure 7:** Manually modified docking conditions (--nrun and --contact_analysis) in the `docking/params/docking_params.db`. </figcaption>
   </p>
 </figure>
 ---
 
 
 Now we can launch the docking experiment with the `dock_table()` function. 
+
+:::note[📝 AutoDock]
+TidyScreen prepares all required input files and executes the docking through AutoDock-GPU, the GPU-accelerated implementation of AutoDock4. This allows a substantial speed-up compared to the CPU version, while maintaining compatibility with the same scoring function and parameter set.
+:::
 
 You must define 3 variables:
 - *table_name*: name of the table containing the ligand(s) you want to use for the docking study, as stated in the `chemspace/processed_data/chemspace.db` database.
@@ -403,7 +416,7 @@ For example, if `--nrun=100` and a cluster reports `size = 80`, it means **80/10
   <img src="/TidyScreen_v2_docs_new/img/Score_Interact.png" alt="Description of image" width="900"/>
   <img src="/TidyScreen_v2_docs_new/img/Coords.png" alt="Description of image" width="500"/>
   <img src="/TidyScreen_v2_docs_new/img/Clustering_histogram.png" alt="Description of image" width="700"/>
-  <figcaption>**Figure X:** Illustration of a typical AutoDock `.dlg` file. *Top*: docking scores and list of detected interactions. *Middle*: coordinates of a docked pose. *Bottom*: clustering histogram showing how many times each pose was identified during multiple runs. </figcaption>
+  <figcaption>**Figure 8:** Illustration of a typical AutoDock `.dlg` file. *Top*: docking scores and list of detected interactions. *Middle*: coordinates of a docked pose. *Bottom*: clustering histogram showing how many times each pose was identified during multiple runs. </figcaption>
   </p>
 </figure>
 ---
@@ -424,13 +437,14 @@ This way, the program will automatically use this path during the analyses, inst
 aminoglycosides_example_docking_analysis = docking_analysis.DockingAnalysis(Aminoglycosides_example, amberhome="/PATH/TO/AMBER/amber<VERSION>")
 ```
 
-The `process_docking_assay()` function parses the AutoDock outputs of a given assay, ranks poses by docking score (most negative = best), and stores the selected results for downstream analysis.
+The `process_docking_assay()` function parses the AutoDock outputs of a given assay, leveraging the [Ringtail](https://ringtail.readthedocs.io/en/latest/) library to efficiently handle the results. It ranks the poses by docking score (most negative = best) and stores the selected results for downstream analysis.
+
 You should define the following variables:
 
 - *assay_id* (int, required): ID of the docking assay to analyze (as registered by dock_table()).
 - *max_poses* (int, default = 10): Maximum number of poses per ligand to store in the results database, ordered from best (lowest binding energy) to worse.
 - *vmd_path* (str | None, default = None): Path to VMD (Visual Molecular Dynamics). If provided, helper files/commands for quick visualization are prepared.
-- *extract_poses* (int {0,1}, default = 0): If 1, writes PDB files for each selected pose. If 0, keeps only the database records and existing PDBQT/DLG outputs.
+- *extract_poses* (int [0,1], default = 0): If 1, writes PDB files for each selected pose. If 0, keeps only the database records and existing PDBQT/DLG outputs.
 
 
 ```python title="Aminoglycosides.py"
@@ -438,7 +452,8 @@ You should define the following variables:
 aminoglycosides_example_docking_analysis.process_docking_assay(assay_id=1, max_poses=10, vmd_path="PATH/TO/VMD", extract_poses=1)
 ```
 
-As a result, a new database `assay_<ID>.db` will be generated.
+As a result, a new database `assay_<ID>.db`  will be generated inside the corresponding assay docking folder.
+
 This file contains several tables that organize the results of the analysis:
 
 * *interaction_indices*: dictionary of interaction types (e.g., hydrogen bonds H and van der Waals V) that can be identified between ligands and receptor.
@@ -457,7 +472,7 @@ If *extract_poses=1*, a new subfolder *docked_1_per_cluster/* will be created in
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/AutoDock_results.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure X:** Screenshot of the `docking/docking_assays/assay_<ID>/assay_<ID>.db content`. </figcaption>
+  <figcaption>**Figure 9:** Screenshot of the `docking/docking_assays/assay_<ID>/assay_<ID>.db content`. </figcaption>
   </p>
 </figure>
 ---
@@ -484,7 +499,7 @@ Let’s examine the **top-ranked poses**. We will focus on two signals:
 |3|4|-2\.37|-2\.37|1|GentamicinC1a\_4\.pdb|
 
 <figure>
-  <figcaption>**Table X.** Summary of docking results for Gentamicin C1a. </figcaption>
+  <figcaption>**Table 1.** Summary of docking results for Gentamicin C1a. </figcaption>
 </figure>
 
 </div>
@@ -493,19 +508,94 @@ Let’s examine the **top-ranked poses**. We will focus on two signals:
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/GentaC1a_histogram.png" alt="Description of image" width="400"/>
-  <figcaption>**Figure X:** Clustering histogram for Gentamicin C1a, showing how many docking runs converged to each pose (cluster size) and its docking score. Larger clusters typically indicate higher pose reproducibility under the chosen search settings. </figcaption>
+  <figcaption>**Figure 10:** Clustering histogram for Gentamicin C1a, showing how many docking runs converged to each pose (cluster size) and its docking score. Larger clusters typically indicate higher pose reproducibility under the chosen search settings. </figcaption>
   </p>
 </figure>
 
 ---
 
-From the docking results above, we can conclude that exists a highly energetically favoured conformation for Gentamicin C1a. However, we cannot directly assume whether the method is efficient in reproducing the crystallographic pose yet. While visual inspection provides a qualitative idea, a more rigorous and quantitative metric is the **Root Mean Square Deviation (RMSD)**, which measures the average distance between equivalent atoms in two structures. In this context, we will calculate the RMSD between each of the four docked poses identified by AutoDock and the crystallographic reference ligand. This allows us to objectively assess how closely the docking protocol is able to replicate the experimentally observed binding mode.
+From the docking results above, we can conclude that a highly energetically favoured conformation for Gentamicin C1a exists. However, we cannot directly assume whether the method is efficient in reproducing the crystallographic pose yet. While visual inspection provides a qualitative idea, a more rigorous and quantitative metric is the **Root Mean Square Deviation (RMSD)**, which measures the average distance between equivalent atoms in two structures. In this context, we will calculate the RMSD between each of the four docked poses identified by AutoDock and the crystallographic reference ligand. This allows us to objectively assess how closely the docking protocol is able to replicate the experimentally observed binding mode.
+
+<details>
+  <summary><b>Calculate RMSD</b></summary>
+```python  
+#In a python terminal, run the following code:
+  import os, glob
+  import numpy as np
+  from rdkit import Chem
+  from rdkit.Chem import AllChem
+  import pandas as pd
+
+  def rmsd_ref_vs_pdb_glob(ref_pdb: str, pdb_glob: str, *, remove_hs: bool = False, sanitize: bool = True, sort_by: str = "RMSD", save_csv: str | None = None, 
+  ) -> pd.DataFrame:
+      ref = Chem.MolFromPDBFile(ref_pdb, sanitize=sanitize, removeHs=False)
+      if ref is None and sanitize:
+          ref = Chem.MolFromPDBFile(ref_pdb, sanitize=False, removeHs=False)
+      if ref is None:
+          raise ValueError(f"Failed reference PDB: {ref_pdb}")
+
+      ref_mol = Chem.RemoveHs(ref) if remove_hs else ref
+      n_ref = ref_mol.GetNumAtoms()
+
+      results = []
+      files = sorted(glob.glob(pdb_glob))
+      if not files:
+          raise FileNotFoundError(f"PDB files matching {pdb_glob} not found")
+
+      for pdb_file in files:
+          pose_name = os.path.splitext(os.path.basename(pdb_file))[0]
+          notes = ""
+          rmsd_val = np.nan
+
+          try:
+              mol = Chem.MolFromPDBFile(pdb_file, sanitize=sanitize, removeHs=False)
+              if mol is None and sanitize:
+                  mol = Chem.MolFromPDBFile(pdb_file, sanitize=False, removeHs=False)
+              if mol is None:
+                  notes = "MolFromPDBFile = None"
+              else:
+                  mol_m = Chem.RemoveHs(mol) if remove_hs else mol
+                  n_pose = mol_m.GetNumAtoms()
+
+                  if n_pose != n_ref:
+                      notes = f"Atoms do not match (ref={n_ref}, pose={n_pose})"
+                  else:
+                      rmsd_val = AllChem.GetBestRMS(ref_mol, mol_m)
+          except Exception as e:
+              notes = f"ERROR: {e}"
+              n_pose = np.nan
+
+          results.append({
+              "Pose": pose_name,
+              "RMSD": rmsd_val,
+          })
+
+      df = pd.DataFrame(results)
+      if sort_by in df.columns:
+          df = df.sort_values(sort_by, na_position="last").reset_index(drop=True)
+      else:
+          df = df.sort_values("Pose").reset_index(drop=True)
+
+      if save_csv:
+          df.to_csv(save_csv, index=False)
+
+      return df
+
+  #Please check the paths and adapt them to your own system.
+  df = rmsd_ref_vs_pdb_glob(
+      ref_pdb="/Aminoglycosides/docking/raw_data/genta_target/genta.pdb",
+      pdb_glob="/Aminoglycosides/docking/docking_assays/assay_1/docked_1_per_cluster/VEGXETMJINRLTH-*.pdb",
+      sort_by="RMSD",
+      save_csv="rmsd_GentamicinC1a.csv"
+  )
+  ```
+ </details>
 
 | ![Pose 1](/img/DockGentaC1a_1.png) (a) Crystallographic GentamicinC1a vs Docked Pose 1 (red) | ![Pose 2](/img/DockGentaC1a_2.png) (b) Crystallographic GentamicinC1a vs Docked Pose 2 (blue) |
 |-----------------------------------------------|-----------------------------------------------|
 | ![Pose 3](/img/DockGentaC1a_3.png) (c) Crystallographic GentamicinC1a vs Docked Pose 3 (green) | ![Pose 4](/img/DockGentaC1a_4.png) (d) Crystallographic GentamicinC1a vs Docked Pose 4 (pink) |
 <figure>
-<figcaption><strong>Figure X.</strong> Gentamicin C1a docked poses compared to the crystallographic reference (PDB ID: 2ET3).</figcaption>
+<figcaption><strong>Figure 11.</strong> Gentamicin C1a docked poses compared to the crystallographic reference (PDB ID: 2ET3).</figcaption>
 </figure>
 
 
@@ -522,10 +612,10 @@ From the docking results above, we can conclude that exists a highly energetical
 
 </div>
 </p>
-<figcaption><strong>Table X.</strong> RMSD values of docked poses compared to the crystallographic reference (PDB ID: 2ET3).</figcaption>
+<figcaption><strong>Table 2.</strong> RMSD values of docked poses compared to the crystallographic reference (PDB ID: 2ET3).</figcaption>
 </figure>
 
-Taken together, the visual overlays and the RMSD calculations consistently indicate that only the first docked pose (GentamicinC1a_1, Fig Xa) reproduces the crystallographic binding mode with high accuracy (RMSD < 0.3 Å). In contrast, the other poses display large deviations (> 2 Å), confirming that they represent alternative orientations rather than the native binding conformation. This combined qualitative and quantitative evaluation validates the docking setup.
+Taken together, the visual overlays and the RMSD calculations consistently indicate that only the first docked pose (GentamicinC1a_1, Fig 11a) reproduces the crystallographic binding mode with high accuracy (RMSD < 0.3 Å). In contrast, the other poses display large deviations (> 2 Å), confirming that they represent alternative orientations rather than the native binding conformation. This combined qualitative and quantitative evaluation validates the docking setup.
 
 #### 1.5.2. Computing interaction fingerprints for a docked pose
 
@@ -581,18 +671,15 @@ aminoglycosides_example_docking_analysis.compute_fingerprints_for_docked_pose(
 
 **i)** Sets up a working directory under *docking/docking_assays/assay_`<ID>`/fingerprints_analyses/`<pose_subfolder>`/*.
 
-**ii)** If *iteration == 1*, builds the residue-mapping dictionary (crystal numbering ↔ tleap numbering) and saves it as
-*fingerprints_analyses/tleap_vs_cristal_resnames_dict.csv*; otherwise reloads it.
+**ii)** If *mmgbsa == 1*, prepares AMBER input (LEaP), minimizes the complex (min_steps, solvent), runs MMPBSA decomposition and writes a per-residue CSV, and stores the results in the DB (*store_mmbgsa_fingerprints_results_in_db*).
 
-**iii)** If *mmgbsa == 1*, prepares AMBER input (LEaP), minimizes the complex (min_steps, solvent), runs MMPBSA decomposition and writes a per-residue CSV, and stores the results in the DB (*store_mmbgsa_fingerprints_results_in_db*).
+**iii)** If *prolif == 1*, builds a reference ProLIF dataframe for the entire receptor, mapped to the crystallographic numbering. It reuses the minimized prmtop/crd files if *mmgbsa == 1*; otherwise, these files are generated specifically for the ProLIF computation. Then, it retrieves the parameter set from *docking/params/prolif_parameters.db* according to the prolif_parameters_set ID, computes the ProLIF fingerprint for the docked pose and maps it to the crystallographic residue numbering, and saves the results as *prolif_fingerprints_renum.csv* and registers them in the database.
 
-**iv)** If *prolif == 1*, builds a reference ProLIF dataframe for the entire receptor, mapped to the crystallographic numbering. It reuses the minimized prmtop/crd files if *mmgbsa == 1*; otherwise, these files are generated specifically for the ProLIF computation. Then, it retrieves the parameter set from *docking/params/prolif_parameters.db* according to the prolif_parameters_set ID, computes the ProLIF fingerprint for the docked pose and maps it to the crystallographic residue numbering, and saves the results as *prolif_fingerprints_renum.csv* and registers them in the database.
+**iv)** If *store_docked_poses == 1*, the pose itself is stored in the results database.
 
-**v)** If *store_docked_poses == 1*, the pose itself is stored in the results database.
+**v)** Depending on the values of clean_files and clean_folder, the function will also remove intermediate files and/or the entire workspace once the computations are complete.
 
-**vi)** Depending on the values of clean_files and clean_folder, the function will also remove intermediate files and/or the entire workspace once the computations are complete.
-
-**vii)** Finally, the total execution time is logged and printed to the console.
+**vi)** Finally, the total execution time is logged and printed to the console.
 
 As a practical example, we will calculate the interaction fingerprint of *Gentamicin C1a docked pose 1*, in order to evaluate whether the interactions identified experimentally can also be reproduced *in silico*. For simplicity, we will use the *default conditions* of the function.
 
@@ -687,7 +774,7 @@ To provide an overview at the residue level, we can visually compare the reporte
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/GentaC1a_contacts.png" alt="Description of image" width="600"/>
   <img src="/TidyScreen_v2_docs_new/img/Prolif_Interactions_GentaC1a.png" alt="" width="600"/>
-  <figcaption><strong>Figure X.</strong> *Top*:   Crystallographic interactions reported for Gentamicin C1a (PDB ID: <a href="https://www.rcsb.org/structure/2ET3">2ET3</a>)[^3]. *Bottom*: VMD representation of the ProLIF fingerprint identified for Gentamicin C1a (docked pose 1, CPK). Only H-bond interactions are highlighted. Note that residue numbering differs from the crystal structure (e.g., G1405 in the crystal corresponds to G4<sup>A</sup> here).</figcaption>
+  <figcaption><strong>Figure 12.</strong> *Top*:   Crystallographic interactions reported for Gentamicin C1a (PDB ID: <a href="https://www.rcsb.org/structure/2ET3">2ET3</a>)[^3]. *Bottom*: VMD representation of the ProLIF fingerprint identified for Gentamicin C1a (docked pose 1, CPK). Only H-bond interactions are highlighted. Note that residue numbering differs from the crystal structure (e.g., G1405 in the crystal corresponds to G4<sup>A</sup> here).</figcaption>
   </p>
 </figure>
 
@@ -705,7 +792,7 @@ Interestingly, analysis of Gentamicin C1a highlights a marked difference between
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/mmgbsa_fingerprints.png" alt="Description of image" width="800"/>
-  <figcaption>**Figure X:** Screenshot of the *mmgbsa_fingerprints* table of Gentamicin C1a. </figcaption>
+  <figcaption>**Figure 13:** Screenshot of the *mmgbsa_fingerprints* table of Gentamicin C1a. </figcaption>
   </p>
 </figure>
 ---
@@ -741,7 +828,7 @@ The resulting heatmap shows that the main residues identified in docking (G4, U5
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/GentamicinC1a_mmgbsa_DECOMP.png" alt="Description of image"/>
-  <figcaption>**Figure X:** MMGBSA per-residue interactions identified for the RNA:Gentamicin C1a complex after minimization. </figcaption>
+  <figcaption>**Figure 14:** MMGBSA per-residue interactions identified for the RNA:Gentamicin C1a complex after minimization. </figcaption>
   </p>
 </figure>
 ---
@@ -807,7 +894,7 @@ As a result, a *Gentamicin_Components* table will be created within the `chemspa
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/Gentamicin_Components_chemspace_table.png" alt="Description of image" width="900"/>
-  <figcaption>**Figure X:** Screenshot of the ChemSpace table of Gentamicin Components showing the generated output files (`.pdb`, `.pdbqt`, `.mol2`, and `.frcmod`) after parameterization. </figcaption>
+  <figcaption>**Figure 15:** Screenshot of the ChemSpace table of Gentamicin Components showing the generated output files (`.pdb`, `.pdbqt`, `.mol2`, and `.frcmod`) after parameterization. </figcaption>
   </p>
 </figure>
 ---
@@ -849,7 +936,7 @@ Let's analyze the results. As a first step, since we re-docked Gentamicin C1a, i
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/histo_GentamicinC1a.png" alt="Description of image" width="400"/>
-  <figcaption>**Figure X:** Clustering histogram for Gentamicin C1a redocking results. Ranked 1 pose showed docking score of -9.25 kcal/mol, cluster size of 80, and RMSD with respect to the crystallographic pose = 0.281 Å. </figcaption>
+  <figcaption>**Figure 16:** Clustering histogram for Gentamicin C1a redocking results. Ranked 1 pose showed docking score of -9.25 kcal/mol, cluster size of 80, and RMSD with respect to the crystallographic pose = 0.281 Å. </figcaption>
   </p>
 </figure>
 
@@ -862,12 +949,12 @@ We next examined the docking histograms for all Gentamicin components to identif
 | ![Img1](/img/histo_Garamine.png) | ![Img2](/img/histo_Garosamine.png) | ![Img3](/img/histo_2Deoxystreptamine.png) |
 <figure>
   <p align="center">
-  <figcaption>**Figure X:** Clustering vs. docking score histograms for all major and minor Gentamicin components. </figcaption>
+  <figcaption>**Figure 17:** Clustering vs. docking score histograms for all major and minor Gentamicin components. </figcaption>
   </p>
 </figure>
 
-The most potent components (Gentamicins C and Sisomicin) consistently showed a well-defined, energetically favoured pose, with docking scores between -10 and -7 kcal/mol and cluster sizes of 70-80. In contrast, the minor components (i.e. Gentamicin X2, A, B, and B1) yielded higher scores (-6.5 to -5 kcal/mol) and more heterogeneous conformer distributions, with cluster sizes between 20–43 for their best poses.  
-Interestingly, the smallest components (Garamine, Garosamine, and 2-Deoxystreptamine) showed very high cluster sizes (77–96), but in combination with weak docking scores (-4.8 to -3.9 kcal/mol). This likely reflects their reduced flexibility, which limits conformational sampling in AutoDock. Taken together, these results demonstrate the importance of integrating both docking score and cluster size for interpretation: relying on a single parameter could lead to misleading conclusions.
+The most potent components (Gentamicins C and Sisomicin) consistently showed a well-defined, energetically favoured pose, with docking scores between -10 and -7 kcal/mol and cluster sizes of 70-80. In contrast, the minor components (i.e. Gentamicin X2, A, B, and B1; Garamine, Garosamine, and 2-Deoxystreptamine) yielded higher scores (-6.5 to -4 kcal/mol) and more heterogeneous conformer distributions, with cluster sizes between 20–43 for their best poses.  
+Interestingly, the smallest scaffolds (garamine, garosamine, 2-deoxystreptamine) displayed very high cluster sizes (77-96). A plausible explanation is their reduced conformational flexibility, which limits exploration of alternative binding modes and yields families of closely related poses that cluster together. In this dataset, those compounds did not show favorable docking scores, underscoring why both score and cluster size should be considered jointly: interpreting either metric in isolation can be misleading.
 
 |index|Rank|Docking\_score|Mean\_score|Cluster\_size|Ligand|Pose|
 |---|---|---|---|---|---|---|
@@ -887,7 +974,7 @@ Interestingly, the smallest components (Garamine, Garosamine, and 2-Deoxystrepta
 
 <figure>
   <p align="center">
-  <figcaption>**Table X.** Summary of top-ranked docking results for the best docked pose of all Gentamicin components, sorted by *Docking_score*. </figcaption>
+  <figcaption>**Table 3.** Summary of top-ranked docking results for the best docked pose of all Gentamicin components, sorted by *Docking_score*. </figcaption>
   </p>
 </figure>
 
@@ -905,18 +992,24 @@ Interestingly, the smallest components (Garamine, Garosamine, and 2-Deoxystrepta
 |  | (m) 2-Deoxystreptamine | |
 <figure>
   <p align="center">
-  <figcaption>**Figure X:** Top-ranked docked pose of all major and minor Gentamicin components (blue), compared to the crystallographic reference (Gentamicin C1a). </figcaption>
+  <figcaption>**Figure 18:** Top-ranked docked pose of all major and minor Gentamicin components (blue), compared to the crystallographic reference (Gentamicin C1a). </figcaption>
   </p>
 </figure>
 
 By confirming that the most populated and energetically favoured poses of the active components align with the crystallographic reference, we further validate the docking protocol. Moreover, these comparative analyses provide the first pharmacodynamic clues to explain the differential bioactivity of Gentamicin components.
+
+To extend the analysis beyond a single ligand, *TidyScreen* provides the `compute_fingerprints_for_whole_assay()` function, which automates the post-processing of all docked ligands within a given assay, running both ProLIF and MMGBSA calculations in batch mode. In practice, the function works almost identically to `compute_fingerprints_for_docked_pose()` (Section 1.5.2.), but instead of specifying a single pose ID, the user only needs to indicate the `assay_id`. 
+
+```python title="Aminoglycosides.py"
+aminoglycosides_example_docking_analysis.compute_fingerprints_for_whole_assay(assay_id=2)
+```
 
 Considering the ProLIF-derived fingerprints, a clear separation emerges between ligands that establish contacts with residue A7—which correspond to the most potent components—and those that do not, typically the least potent ones. As anticipated, the smaller scaffolds Garosamine and 2-Deoxystreptamine also lack additional stabilizing interactions across the pocket. Together, these trends point to A7 as a key nucleotide for potency within the ribosomal A-site.
 
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/ProLIF_GentaComp.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure X:** Binary ProLIF contact map (presence = 1, absence = 0) aggregated by residue for all Gentamicin components. Columns correspond to A-site nucleotides (crystal numbering mapped to this study); rows correspond to ligands. Note the consistent engagement of A7 among the most potent species (Gentamicin C series and Sisomicin), whereas weaker components (e.g., X2, A, B1, B) and the smaller fragments (Garosamine, 2-Deoxystreptamine) show sparse or no contacts at A7 and fewer overall interactions. This pattern supports a mechanistic role for A7 engagement in driving potency. </figcaption>
+  <figcaption>**Figure 19:** Binary ProLIF contact map (presence = 1, absence = 0) aggregated by residue for all Gentamicin components. Columns correspond to A-site nucleotides (crystal numbering mapped to this study); rows correspond to ligands. Note the consistent engagement of A7 among the most potent species (Gentamicin C series and Sisomicin), whereas weaker components (e.g., X2, A, B1, B) and the smaller fragments (Garosamine, 2-Deoxystreptamine) show sparse or no contacts at A7 and fewer overall interactions. This pattern supports a mechanistic role for A7 engagement in driving potency. </figcaption>
   </p>
 </figure>
 
@@ -927,7 +1020,7 @@ While docking and ProLIF fingerprints provided valuable information on binding m
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/All_mmgbsa_DECOMP.png" alt="Description of image"/>
-  <figcaption>**Figure X:** Per-residue MMGBSA decomposition across Gentamicin components (columns). </figcaption>
+  <figcaption>**Figure 20:** Per-residue MMGBSA decomposition across Gentamicin components (columns). </figcaption>
   </p>
 </figure>
 ---
@@ -956,7 +1049,7 @@ To that end, we will in silico assemble a glycosidic bond between Garamine (comm
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/synthesis.png" alt="Description of image" width="600"/>
-  <figcaption>**Figure X:** Conceptual synthetic scheme: in silico glycosylation of Garamine with a library of 2-tetrahydropyranols to diversify ring I. </figcaption>
+  <figcaption>**Figure 21:** Conceptual synthetic scheme: in silico glycosylation of Garamine with a library of 2-tetrahydropyranols to diversify ring I. </figcaption>
   </p>
 </figure>
 ---
@@ -1091,7 +1184,7 @@ When analysing the output, we observed that seven newly generated molecules disp
 
 <figure>
   <p align="center">
-  <figcaption>**Table X.** Docking results for selected synthetic analogues versus natural Gentamicin components sorted by *Docking_score*. Molecules ranked 0–6 achieved scores below -11 kcal/mol, outperforming all natural counterparts. </figcaption>
+  <figcaption>**Table 4.** Docking results for selected synthetic analogues versus natural Gentamicin components sorted by *Docking_score*. Molecules ranked 0–6 achieved scores below -11 kcal/mol, outperforming all natural counterparts. </figcaption>
   </p>
 </figure>
 
@@ -1099,7 +1192,7 @@ When analysing the output, we observed that seven newly generated molecules disp
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/vHTS_gentamicin.png" alt="Description of image" width="500"/>
-  <figcaption>**Figure X:** Cluster size vs. docking score for the top-ranked pose of all docked ligands (n = 2526). Molecules generated in silico by glycosylation (blue dots) are compared with natural Gentamicin components (orange crosses). </figcaption>
+  <figcaption>**Figure 22:** Cluster size vs. docking score for the top-ranked pose of all docked ligands (n = 2526). Molecules generated in silico by glycosylation (blue dots) are compared with natural Gentamicin components (orange crosses). </figcaption>
   </p>
 </figure>
 ---
@@ -1122,7 +1215,7 @@ When analysing the output, we observed that seven newly generated molecules disp
 | (m) 2D structure UDUQYUXNGOGLPX-ARTXYBLXSA-P	| (n) 3D structure UDUQYUXNGOGLPX-ARTXYBLXSA-P	 | 
 <figure>
   <p align="center">
-  <figcaption>**Figure X:** 2D structures and 3D docked poses of the top-ranked analogues identified in the virtual screening. The new derivatives are depicted in blue, overlaid with the crystallographic reference Gentamicin C1a. </figcaption>
+  <figcaption>**Figure 23:** 2D structures and 3D docked poses of the top-ranked analogues identified in the virtual screening. The new derivatives are depicted in blue, overlaid with the crystallographic reference Gentamicin C1a. </figcaption>
   </p>
 </figure>
 
@@ -1134,14 +1227,14 @@ Notably, the ProLIF analysis consistently highlights the canonical interactions 
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/ProLIF_GentaSynth.png" alt="Description of image" width="1000"/>
-  <figcaption>**Figure X:** Binary ProLIF contact map (presence = 1, absence = 0) aggregated by residue for the vHTS-detected hits and reference Gentamicin C1a. While Gentamicin C1a and other natural components reproduce canonical contacts (e.g., G4, U5, A7), the synthetic hits also engage novel residues (C3, C6, G38, G39), suggesting an expanded recognition profile within the RNA binding site. </figcaption>
+  <figcaption>**Figure 24:** Binary ProLIF contact map (presence = 1, absence = 0) aggregated by residue for the vHTS-detected hits and reference Gentamicin C1a. While Gentamicin C1a and other natural components reproduce canonical contacts (e.g., G4, U5, A7), the synthetic hits also engage novel residues (C3, C6, G38, G39), suggesting an expanded recognition profile within the RNA binding site. </figcaption>
   </p>
 </figure>
 
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/NewInhDockProLIF.png" alt="Description of image" width="600"/>
-  <figcaption><strong>Figure X.</strong> VMD representation of AIHDHRVACSMVSS-XAZDVDGLSA-P (docked pose 1, CPK). Only H-bond interactions with the newly identified ProLIF interactions are highlighted.</figcaption>
+  <figcaption><strong>Figure 25.</strong> VMD representation of AIHDHRVACSMVSS-XAZDVDGLSA-P (docked pose 1, CPK). Only H-bond interactions with the newly identified ProLIF interactions are highlighted.</figcaption>
   </p>
 </figure>
 
@@ -1150,7 +1243,7 @@ These results are further reinforced by MMGBSA analysis, which demonstrates that
 <figure>
   <p align="center">
   <img src="/TidyScreen_v2_docs_new/img/GentamicinC1a_analogues_mmpbsa_decomp.png" alt="Description of image"/>
-  <figcaption>**Figure X:** Per-residue MMGBSA decomposition of the vHTS-detected hits and reference Gentamicin C1a. Stronger energetic contributions are observed for the synthetic analogues across both canonical residues and additional binding site positions, supporting their enhanced stabilization potential compared to the reference. </figcaption>
+  <figcaption>**Figure 26:** Per-residue MMGBSA decomposition of the vHTS-detected hits and reference Gentamicin C1a. Stronger energetic contributions are observed for the synthetic analogues across both canonical residues and additional binding site positions, supporting their enhanced stabilization potential compared to the reference. </figcaption>
   </p>
 </figure>
 ---
