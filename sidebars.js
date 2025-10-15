@@ -70,7 +70,7 @@ tutorialSidebar: [
     {
       type: 'category',
       label: 'Examples',
-      items: ['examples/chemical_space_synthesis','examples/docking',],
+      items: ['examples/chemical_space_synthesis','examples/docking', 'examples/ersilia_on_table'],
     },
     'contact',
   ],
