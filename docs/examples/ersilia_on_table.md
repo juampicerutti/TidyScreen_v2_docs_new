@@ -214,3 +214,29 @@ In case the user wants to save the filtered table as a `.csv` file for storing p
 Overall, the final list of prioritized primary and secondary amines contains 137158 reactants. [Link to the csv file](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/Amines_filtered_druglike.csv)
 
 
+#### STEP 3: Predicting prices using Ersilia Hub Models
+
+The diverse set of models as provided by the Ersilia Hub  can be applied a to table containing smiles strings. In this example we will use the model [*eos7a45*](https://www.ersilia.io/models-details?recordId=recmMLJH20FNos6oW) in order to predict reactants prices, which will be afterwards used to prioritize building blocks based on lowering the budget of a screening campaign.
+
+In order to apply a model, the Ersilia Model Hub should be installed in the system as is indicated by the [README.md](https://github.com/alfredoq/TidyScreen_v2) file of the TidyScreen repository. Once installed, the procedure to generate the prediction on a given table is:
+
+```python
+>>> price_filtering_chemspace.apply_ersilia_model_on_table("emolecules_subset_1_subset_2","eos7a45")
+
+# The first string indicates the table on which to compute predictions
+
+# The second table is an identifier of the Ersilia Model
+
+```
+
+Once executed, the table will contain one or more columns (depending on the model output feature - check the Ersilia catalog -) which is named: *'model_name_feature_name'*. In this particular case, only one feature is outputed by the [*eos7a45*](https://www.ersilia.io/models-details?recordId=recmMLJH20FNos6oW) model, with the feature being named *'coprinet'*, so the the name of the calculated column will be *'eos7a45_coprinet'*. The Figure below shows an overview of the corresponding table.
+
+Figure XXXX
+
+
+#### STEP 4: Subseting price ranges
+
+Once computed, price ranges may be subseted by using the *subset_table_by_properties()* functions, as is explained in the [chemical space tutorial](chemical_space_synthesis) tutorial. 
+
+In this case, we will se a different approach, consisting in the use of SQL statements in the bash console.
+
