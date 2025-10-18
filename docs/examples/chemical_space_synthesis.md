@@ -188,7 +188,7 @@ It is possible to concatenate multiple filters in a single **filtering workflow*
 > # Create a workflow to filter aldehydes (10:1) for A3 coupling reactions (no interfering groups as indicated: 12:0, 11:0, etc)
 >>> synthesis_example_chemspace.create_smarts_filters_workflow({10:1,11:0,26:0,12:0,4:0,5:0,25:0,35:0,21:0,53:0,2:0,17:0,6:0,7:0,8:0,9:0}) 
 
-> # Create a workflow to filter primary and secondary amines (55:1) for A3 coupling reactions reactions
+> # Create a workflow to filter primary and secondary amines (54:1) for A3 coupling reactions reactions
 >>> synthesis_example_chemspace.create_smarts_filters_workflow({54:1,10:0,4:0,5:0,25:0,35:0,21:0,53:0,2:0,17:0,6:0,7:0,8:0,9:0}) 
 
 > # Create a workflow to filter aminoacids (1:1) for click reactions
