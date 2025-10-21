@@ -1,17 +1,24 @@
 ---
-title: Integration with Ersilia Hub
+title: Integration with Ersilia Hub Models
 ---
 
-The management and chemical space prioritization capabilities provided by TidyScreen can be further extended by appling ML/AI models provided by the [Ersilia Models Hub](https://www.ersilia.io/model-hub), which is developed and mantained by the [Ersilia Open-Source Initiative](https://www.ersilia.io/).
+The capabilities for the management and prioritization of a given chemical space within TidyScreen can be further extended by applying ML/AI models provided by the [Ersilia Models Hub](https://www.ersilia.io/model-hub), which is developed and maintained by the [Ersilia Open-Source Initiative](https://www.ersilia.io/).
 
-In this example, we will further extend on the [chemical space tutorial](chemical_space_synthesis), and we are particularly interested in applying a ML model to predict the price of a set of reactants prior to combinatorialy enumerating the synthetic virtual chemical space.
+In this example, we will further extend on the [chemical space tutorial](chemical_space_synthesis), since we are particularly interested in applying a ML model to predict the price of a set of reactants prior to combinatorialy enumerating the synthetic virtual chemical space.
 
 In a nutshell, the steps involved in the procedure are the following:
 
-- Filtering of the reactant of interest from the emolecules database (in this tutorial we will filter out primary and secondary amines);
-- Subset of the resulting libraries using *drug-like* properties.
-- Prediction of the corresponding building blocks prices based on the [*eos7a45*](https://www.ersilia.io/models-details?recordId=recmMLJH20FNos6oW) model included in the [Ersilia Models Hub](https://www.ersilia.io/model-hub)
+- Filtering of the reactant of interest from the emolecules database (specifically primary and secondary amines);
+- Subsetting of the resulting libraries using *drug-like* properties;
+- Prediction of the corresponding building blocks prices based on the [*eos7a45*](https://www.ersilia.io/models-details?recordId=recmMLJH20FNos6oW) model included in the [Ersilia Models Hub](https://www.ersilia.io/model-hub);
 - Subsetting of the reactants based on custom price filtering by using terminal-based SQL statements.
+
+
+
+:::tip[TIP]
+If you already know how to use TidyScreen to read molecules, subset by functional groups and execute filtering workflows, you can directly [skip](#custom-anchor) the section dedicated to properties computation using Ersilia Hub Model.
+:::
+
 
 #### STEP 1: Initial reactants filtering
 
@@ -206,12 +213,20 @@ As can be seen the table `emolecules_subset_1_subset_4` has been created based o
 
 In case the user wants to save the filtered table as a `.csv` file for storing purposes use:
 
+
+<a id="custom-anchor"></a>
+
 ```python
 > # Save a .csv file with the filtered table
 >>> price_filtering_chemspace.save_table_to_csv("emolecules_subset_1_subset_4")
 ```
 
+
+
 Overall, the final list of prioritized primary and secondary amines contains 137158 reactants. [Link to the csv file](https://github.com/alfredoq/TidyScreen_v2_docs_new/blob/main/example_files/Amines_filtered_druglike.csv)
+
+
+
 
 
 #### STEP 3: Predicting prices using Ersilia Hub Models
@@ -231,7 +246,15 @@ In order to apply a model, the Ersilia Model Hub should be installed in the syst
 
 Once executed, the table will contain one or more columns (depending on the model output feature - check the Ersilia catalog -) which is named: *'model_name_feature_name'*. In this particular case, only one feature is outputed by the [*eos7a45*](https://www.ersilia.io/models-details?recordId=recmMLJH20FNos6oW) model, with the feature being named *'coprinet'*, so the the name of the calculated column will be *'eos7a45_coprinet'*. The Figure below shows an overview of the corresponding table.
 
-Figure XXXX
+
+---
+<figure>
+  <p align="center">
+  <img src="/TidyScreen_v2_docs_new/img/coprinet_table.png" alt="Description of image" width="1000"/>
+  <figcaption>**Figure 10:** Screenshot of the `tables_subsets`which registers the filtering/subseting actions.</figcaption>
+  </p>
+</figure>
+---
 
 
 #### STEP 4: Subseting price ranges
@@ -240,3 +263,16 @@ Once computed, price ranges may be subseted by using the *subset_table_by_proper
 
 In this case, we will se a different approach, consisting in the use of SQL statements in the bash console.
 
+The following SQL statement will select the 50 lowest prices (excluding NULL values arising from prediction computation):
+
+```bash
+$ sqlite3 chemspace.db "SELECT * FROM emolecules_subset_1_subset_2 WHERE eos7a45_coprinet IS NOT NULL ORDER BY  eos7a45_coprinet ASC LIMIT 50;"
+```
+
+The filtering will be printed to the console. In case the user wants to create a new table with the filtered molecules, it can be done as follows:
+
+```bash
+$ sqlite3 chemspace.db "CREATE TABLE lowest_price_amines AS SELECT * FROM emolecules_subset_1_subset_2 WHERE eos7a45_coprinet IS NOT NULL ORDER BY  eos7a45_coprinet ASC LIMIT 50;"
+```
+
+The subseted table can now be further used on further TidyScreen procedures.
