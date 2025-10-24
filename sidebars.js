@@ -69,8 +69,8 @@ tutorialSidebar: [
     },
     {
       type: 'category',
-      label: 'Examples',
-      items: ['examples/chemical_space_synthesis','examples/docking', 'examples/ersilia_on_table', 'examples/LA_Workshop'],
+      label: 'Tutorials',
+      items: ['examples/chemical_space_synthesis','examples/docking', 'examples/ersilia_on_table', 'examples/LA_Workshop', 'examples/molecules_preparation'],
     },
     'contact',
   ],
