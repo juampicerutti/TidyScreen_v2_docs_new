@@ -54,15 +54,15 @@ Below the user can find some custom examples of the usage of the `generate_mols_
 
 ```python
 # Will use Meeko to compute gasteiger charges
-sample_project_cs.generate_mols_in_table("test_table", charge_method='gas', delete_temp_dir=0, pdbqt_method="meeko")
+sample_project_cs.generate_mols_in_table("test_table", charge_method='gas', pdbqt_method="meeko")
 
 # Will use Meeko to compute espaloma type charges
-sample_project_cs.generate_mols_in_table("test_table", charge_method='bcc-ml', delete_temp_dir=0, pdbqt_method="meeko")
+sample_project_cs.generate_mols_in_table("test_table", charge_method='bcc-ml', pdbqt_method="meeko")
 
 # Will use the espaloma_charge package to compute bcc-ml charges
-sample_project_cs.generate_mols_in_table("test_table", charge_method='bcc-ml', delete_temp_dir=0, pdbqt_method="third-party")
+sample_project_cs.generate_mols_in_table("test_table", charge_method='bcc-ml', pdbqt_method="third-party")
 
 # Will use the antechamber package to compute gas charges
-sample_project_cs.generate_mols_in_table("test_table", charge_method='gas', delete_temp_dir=0, pdbqt_method="third-party")
+sample_project_cs.generate_mols_in_table("test_table", charge_method='gas', pdbqt_method="third-party")
 
 ```
