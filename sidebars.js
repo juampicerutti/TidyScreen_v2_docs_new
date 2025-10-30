@@ -74,6 +74,7 @@ tutorialSidebar: [
         'examples/docking', 
         'examples/ersilia_on_table',  
         'examples/molecules_preparation', 
+        'examples/LA_Workshop',
         {
           type: 'category',
           label: 'LA Workshop',
