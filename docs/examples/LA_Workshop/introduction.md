@@ -86,3 +86,5 @@ la_workshop_2025/
 ├── docking_analysis/   
     └── ...  # post-docking results, fingerprints, and scoring summaries
 ```
+
+We will be exploring the contents of each folder as this tutorial advances in the next sections.
