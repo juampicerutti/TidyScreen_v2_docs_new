@@ -62,7 +62,7 @@ Among CZP inhibitors, **K777** stands out as the benchmark compound. It is a pep
 </figure>
 ---
 
-Preclinical studies confirmed K777’s oral bioavailability and efficacy in rodents, dogs, and non-human primates, eliminating parasitemia in both acute and chronic infections. However, phase I clinical trials were halted due to elevated hepatotoxicity markers - likely resulting from irreversible inhibition of CYP3A4 - and other adverse effects, even at low doses. Consequently, ongoing research aims to design analogues or alternative delivery strategies to preserve efficacy while minimizing toxicity.
+Preclinical studies confirmed K777’s oral bioavailability and efficacy in rodents, dogs, and non-human primates, eliminating parasitemia in both acute and chronic infections. However, they were halted due to elevated hepatotoxicity markers - likely resulting from irreversible inhibition of CYP3A4 - and other adverse effects, even at low doses. Consequently, ongoing research aims to design analogues or alternative delivery strategies to preserve efficacy while minimizing toxicity.
 
 ## CZP vs. Human Cathepsins: The Selectivity Challenge
 
